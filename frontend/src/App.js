@@ -204,29 +204,45 @@ function App() {
 
 
       <section id="projects">
-        <h2 className="section-title">Projects</h2>
+  <h2 className="section-title">Projects</h2>
 
-        <div className="card-grid">
-          <div className="card">
-            <h3>OJT Website System</h3>
-            <br />
-            <p>
-              Developed a functional website during my On-the-Job Training,
-              focusing on responsive design, database integration, and
-              user-friendly interfaces.
-            </p>
-          </div>
+  <div className="projects-grid">
+    <div className="project-card">
+      <img
+        src="/ojt-project.jpg"
+        alt="OJT Website System"
+        className="project-image"
+      />
 
-          <div className="card">
-            <h3>Personal Portfolio</h3>
-            <br />
-            <p>
-              Built a modern React portfolio website to showcase my
-              technical skills, projects, and professional background.
-            </p>
-          </div>
-        </div>
-      </section>
+      <div className="project-content">
+        <h3>OJT Website System</h3>
+
+        <p>
+          Developed a functional website during my On-the-Job Training,
+          focusing on responsive design, database integration, and
+          user-friendly interfaces.
+        </p>
+      </div>
+    </div>
+
+    <div className="project-card">
+      <img
+        src="/portfolio-project.jpg"
+        alt="Personal Portfolio"
+        className="project-image"
+      />
+
+      <div className="project-content">
+        <h3>Personal Portfolio</h3>
+
+        <p>
+          Built a modern React portfolio website to showcase my
+          technical skills, projects, and professional background.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
      
 <section id="contact" className="contact-section">
