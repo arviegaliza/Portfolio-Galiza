@@ -3,6 +3,7 @@ import "./App.css";
 import { TypeAnimation } from "react-type-animation";
 import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
+import Marquee from "react-fast-marquee";
 import {
   FaHtml5,
   FaCss3Alt,
@@ -232,131 +233,98 @@ const handleSubmit = async () => {
   </div>
 </section>
 
-<section id="projects">
-  <h2 className="section-title">Projects</h2>
+{/* Projects Section */}
+<section className="projects-section">
+ <h2 className="section-title">Projects</h2>
 
-  <div className="projects-slider">
-    <div className="projects-track">
+  <Marquee speed={50} pauseOnHover={true} gradient={false}>
 
-      {/* Project 1 */}
-      <div className="project-card">
-        <img src="/ojt-project.jpg" alt="OJT Project" className="project-img" />
+    {/* Project 1 */}
+    <div className="project-card">
+      <img src="/ojt-project.jpg" alt="OJT Project" className="project-img" />
 
-        <div className="project-content">
-          <h3>OJT Website System</h3>
+      <div className="project-content">
+        <h3>OJT Website System</h3>
 
-          <p>
-            Developed a responsive website during my internship,
-            featuring database integration, user authentication,
-            and modern UI design.
-          </p>
+        <p>
+          Developed a responsive website during my internship,
+          featuring database integration, user authentication,
+          and modern UI design.
+        </p>
 
-          <div className="project-links">
-            <a
-              href="https://schedulingsystem-ten.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="demo-btn"
-            >
-              Live Demo
-            </a>
-          </div>
+        <div className="project-links">
+          <a
+            href="https://schedulingsystem-ten.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="demo-btn"
+          >
+            Live Demo
+          </a>
         </div>
       </div>
-
-      {/* Project 2 */}
-      <div className="project-card">
-        <img src="/coffee-project.jpg" alt="Coffee Project" className="project-img" />
-
-        <div className="project-content">
-          <h3>Coffee Reservation System</h3>
-
-          <p>
-            Built a Coffee Reservation System using HTML, CSS, and JavaScript
-            with a responsive and user-friendly interface.
-          </p>
-
-          <div className="project-links">
-            <a
-              href="https://coffee-reservation-nine.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="demo-btn"
-            >
-              Live Demo
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Duplicate cards for infinite loop */}
-      <div className="project-card">
-        <img src="/ojt-project.jpg" alt="OJT Project" className="project-img" />
-
-        <div className="project-content">
-          <h3>OJT Website System</h3>
-          <p>
-            Developed a responsive website during my internship,
-            featuring database integration, user authentication,
-            and modern UI design.
-          </p>
-
-          <div className="project-links">
-            <a
-              href="https://schedulingsystem-ten.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="demo-btn"
-            >
-              Live Demo
-            </a>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
 
-<section id="certifications">
+    {/* Project 2 */}
+    <div className="project-card">
+      <img src="/coffee-project.jpg" alt="Coffee Project" className="project-img" />
+
+      <div className="project-content">
+        <h3>Coffee Reservation System</h3>
+
+        <p>
+          Built a Coffee Reservation System using HTML, CSS, and JavaScript
+          with a responsive and user-friendly interface.
+        </p>
+
+        <div className="project-links">
+          <a
+            href="https://coffee-reservation-nine.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="demo-btn"
+          >
+            Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </Marquee>
+</section>
+<section id="certifications" className="certifications-section">
   <h2 className="section-title">Certifications</h2>
 
-  <div className="certifications-slider">
-    <div className="certifications-track">
-
-      <div className="cert-card">
-        <img src="/cert1.jpg" alt="Certificate 1" />
-        <h3>Web Development Certificate</h3>
-      </div>
-
-      <div className="cert-card">
-        <img src="/cert2.jpg" alt="Certificate 2" />
-        <h3>JavaScript Certificate</h3>
-      </div>
-
-      <div className="cert-card">
-        <img src="/cert3.jpg" alt="Certificate 3" />
-        <h3>React Certificate</h3>
-      </div>
-
-      {/* Duplicate for seamless loop */}
-      <div className="cert-card">
-        <img src="/cert1.jpg" alt="Certificate 1" />
-        <h3>Web Development Certificate</h3>
-      </div>
-
-      <div className="cert-card">
-        <img src="/cert2.jpg" alt="Certificate 2" />
-        <h3>JavaScript Certificate</h3>
-      </div>
-
-      <div className="cert-card">
-        <img src="/cert3.jpg" alt="Certificate 3" />
-        <h3>React Certificate</h3>
-      </div>
-
+  <Marquee
+    speed={50}
+    pauseOnHover={true}
+    gradient={false}
+  >
+    <div className="cert-card">
+      <img src="/react-cert.jpg" alt="React Certificate" />
+      <h3>React Certificate</h3>
     </div>
-  </div>
+
+    <div className="cert-card">
+      <img src="/html-cert.jpg" alt="HTML Certificate" />
+      <h3>HTML Certificate</h3>
+    </div>
+
+    <div className="cert-card">
+      <img src="/css-cert.jpg" alt="CSS Certificate" />
+      <h3>CSS Certificate</h3>
+    </div>
+
+    <div className="cert-card">
+      <img src="/js-cert.jpg" alt="JavaScript Certificate" />
+      <h3>JavaScript Certificate</h3>
+    </div>
+
+    <div className="cert-card">
+      <img src="/python-cert.jpg" alt="Python Certificate" />
+      <h3>Python Certificate</h3>
+    </div>
+  </Marquee>
 </section>
 <section id="contact" className="contact-section">
   <h2 className="section-title">Contact Me</h2>

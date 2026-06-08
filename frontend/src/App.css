@@ -244,42 +244,88 @@ footer {
   padding: 30px;
   color: #94a3b8;
 }
+/* SECTION WRAPPER */
+.contact-section {
+  padding: 100px 10%;
+}
 
+/* TITLE */
+.contact-subtitle {
+  text-align: center;
+  color: #cbd5e1;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+/* MAIN LAYOUT */
 .contact-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  margin-top: 40px;
+  align-items: stretch;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
+/* GLASS CARD BASE */
+.contact-form,
+.contact-comments {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
 
+  padding: 35px;
+  transition: 0.3s ease;
 
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.08);
+}
 
+/* HOVER EFFECT */
+.contact-form:hover,
+.contact-comments:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.25);
+}
+
+/* FORM SIZE */
+.contact-form {
+  width: 650px;
+}
+
+/* COMMENTS SIZE */
+.contact-comments {
+  width: 350px;
+}
+
+/* INPUT WRAPPER */
 .comment-input {
-  position:relative;
+  position: relative;
+  margin-bottom: 18px;
 }
 
 /* TEXTAREA */
 .comment-input textarea {
   width: 100%;
-  padding: 14px 14px 14px 42px;
+  padding: 14px 14px 14px 44px;
+
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  background: rgba(255, 255, 255, 0.03);
   color: white;
+
   outline: none;
   resize: none;
+
   transition: 0.3s ease;
   font-size: 0.95rem;
 }
 
-/* FOCUS EFFECT */
+/* FOCUS */
 .comment-input textarea:focus {
   border-color: orange;
-  box-shadow: 0 0 12px rgba(56,189,248,0.25);
-  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 12px rgba(255, 165, 0, 0.25);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* ICON */
@@ -292,42 +338,33 @@ footer {
   pointer-events: none;
 }
 
-/* PLACEHOLDER STYLE */
+/* PLACEHOLDER */
 .comment-input textarea::placeholder {
-  color: rgba(203,213,225,0.6);
+  color: rgba(203, 213, 225, 0.6);
 }
 
-.contact-section {
-  padding: 100px 10%;
+/* SUBMIT BUTTON (NEW UPGRADE) */
+.contact-form button {
+  width: 100%;
+  padding: 12px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, orange, #ff6a00);
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+  margin-top: 10px;
 }
 
-.contact-subtitle {
-  text-align: center;
-  color: #cbd5e1;
-  margin-bottom: 40px;
+.contact-form button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
 }
-
-.contact-form {
-  width: 700px;
-  padding: 40px;
-
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-}
-
-.contact-comments {
-  width: 350px;
-  padding: 40px;
-
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-}
-
-
 /* INPUT WRAPPER */
 .input-box {
   position: relative;
@@ -425,17 +462,16 @@ textarea {
     opacity: 0;
   }
 }
+/* Container (for Marquee or normal layout wrapper) */
 .projects-container {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  width: 100%;
   margin-top: 50px;
 }
 
+/* Project Card */
 .project-card {
   width: 350px;
-  min-height: 520px;
+  min-height: 430px;
 
   background: #050505;
   border: 2px solid #ff6a00;
@@ -453,6 +489,7 @@ textarea {
     0 0 20px rgba(255, 106, 0, 0.4);
 }
 
+/* Hover effect */
 .project-card:hover {
   transform: translateY(-10px);
 
@@ -462,6 +499,7 @@ textarea {
     0 0 60px rgba(255, 106, 0, 0.5);
 }
 
+/* Image */
 .project-img {
   width: 100%;
   height: 220px;
@@ -475,6 +513,7 @@ textarea {
   transform: scale(1.05);
 }
 
+/* Content */
 .project-content {
   padding: 20px;
 
@@ -495,12 +534,12 @@ textarea {
   margin-bottom: 20px;
 }
 
+/* Button area */
 .project-links {
   margin-top: auto;
   display: flex;
   justify-content: center;
 }
-
 .demo-btn {
   text-decoration: none;
   padding: 10px 20px;
@@ -538,113 +577,74 @@ textarea {
     0 0 10px #ff6a00,
     0 0 20px rgba(255, 106, 0, 0.5);
 }
-.projects-slider {
-  overflow: hidden;
-  width: 100%;
-  margin-top: 40px;
-}
 
-.projects-track {
-  display: flex;
-  gap: 30px;
-  width: max-content;
 
-  animation: scrollProjects 20s linear infinite;
-}
-
-/* Pause when hovered */
-.projects-track:hover {
-  animation-play-state: paused;
-}
-
-@keyframes scrollProjects {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.project-card {
-  width: 350px;
-  min-height: 520px;
-
-  background: #050505;
-  border: 2px solid #ff6a00;
-  border-radius: 25px;
-
-  overflow: hidden;
-
-  flex-shrink: 0;
-
-  transition: 0.4s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-10px);
-
-  box-shadow:
-    0 0 20px #ff6a00,
-    0 0 40px #ff6a00;
-}
-
-/* CERTIFICATIONS */
+/* CERTIFICATIONS SECTION */
 #certifications {
   padding: 100px 10%;
   overflow: hidden;
 }
 
+/* SLIDER WRAPPER */
 .certifications-slider {
   width: 100%;
   overflow: hidden;
   position: relative;
 }
 
+/* MOVING TRACK */
 .certifications-track {
   display: flex;
-  gap: 30px;
+  gap: 50px; /* ✅ proper visible spacing */
   width: max-content;
   animation: slideCertificates 20s linear infinite;
+  align-items: stretch;
 }
 
+/* CERTIFICATE CARD */
 .cert-card {
+  flex: 0 0 auto; /* ✅ prevents shrinking */
   width: 400px;
   min-height: 280px;
 
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border: 2px solid orange;
   border-radius: 20px;
 
   overflow: hidden;
 
   box-shadow:
-    0 0 10px rgba(255,165,0,.4),
-    0 0 20px rgba(255,165,0,.2);
+    0 0 10px rgba(255, 165, 0, 0.4),
+    0 0 20px rgba(255, 165, 0, 0.2);
 
   transition: 0.3s ease;
 }
 
+/* HOVER EFFECT */
 .cert-card:hover {
   transform: translateY(-8px);
 
   box-shadow:
     0 0 20px orange,
-    0 0 40px rgba(255,165,0,.5);
+    0 0 40px rgba(255, 165, 0, 0.5);
 }
 
+/* IMAGE */
 .cert-card img {
   width: 100%;
   height: 220px;
   object-fit: cover;
+  display: block;
 }
 
+/* TITLE */
 .cert-card h3 {
   padding: 15px;
   text-align: center;
+  color: white;
 }
 
+/* ANIMATION */
 @keyframes slideCertificates {
   from {
     transform: translateX(0);
