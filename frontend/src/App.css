@@ -434,35 +434,31 @@ textarea {
     opacity: 0;
   }
 }
-.project-img {
-  width: 100%;
-  height: 200px;      /* fixed height */
-  object-fit: cover;  /* crop image nicely */
-  border-radius: 2px;
-  display: block;
-  transition: transform 0.4s ease;
+.projects-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 50px;
 }
+
 .project-card {
-  position: relative;
-  width: 450px;
+  width: 350px;
   background: #050505;
   border: 2px solid #ff6a00;
   border-radius: 25px;
-  padding: 80px;
-  text-align: center;
   overflow: hidden;
+  position: relative;
 
-  display: flex;
-  flex-direction: column;
-
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition: all 0.4s ease;
 
   box-shadow:
     0 0 10px #ff6a00,
     0 0 20px rgba(255, 106, 0, 0.4);
 }
+
 .project-card:hover {
-  transform: translateY(-12px) scale(1.03);
+  transform: translateY(-10px);
 
   box-shadow:
     0 0 20px #ff6a00,
@@ -470,19 +466,73 @@ textarea {
     0 0 60px rgba(255, 106, 0, 0.5);
 }
 
-.project-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 25px;
-  pointer-events: none; /* important */
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  box-shadow: inset 0 0 30px rgba(255, 106, 0, 0.3);
+.project-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-.project-card:hover::before {
-  opacity: 1;
+.project-card:hover .project-img {
+  transform: scale(1.05);
+}
+
+.project-content {
+  padding: 20px;
+}
+
+.project-content h3 {
+  color: white;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.project-content p {
+  color: #d0d0d0;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.project-links {
+  display: flex;
+  justify-content: center;
+}
+.demo-btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  background: #ff6a00;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.demo-btn:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 10px #ff6a00,
+    0 0 20px rgba(255, 106, 0, 0.5);
+}
+
+.code-btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 2px solid #ff6a00;
+  border-radius: 10px;
+  color: #ff6a00;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.code-btn:hover {
+  background: #ff6a00;
+  color: white;
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 0 10px #ff6a00,
+    0 0 20px rgba(255, 106, 0, 0.5);
 }
 /* ===========================
    ANIMATIONS

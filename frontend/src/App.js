@@ -202,12 +202,12 @@ function App() {
 </section>
 
 
-
-     <section id="projects">
+<section id="projects">
   <h2 className="section-title">Projects</h2>
 
   <div className="projects-container">
 
+    {/* OJT Project */}
     <div className="project-card">
       <img
         src="/ojt-project.jpg"
@@ -215,15 +215,29 @@ function App() {
         className="project-img"
       />
 
-      <h3>OJT Website System</h3>
+      <div className="project-content">
+        <h3>OJT Website System</h3>
 
-      <p>
-        Developed a responsive website during my internship,
-        featuring database integration, user management,
-        and modern UI design.
-      </p>
+        <p>
+          Developed a responsive website during my internship,
+          featuring database integration, user authentication,
+          and modern UI design.
+        </p>
+
+      <div className="project-links">
+  <a
+    href="https://schedulingsystem-ten.vercel.app/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="demo-btn"
+  >
+    Live Demo
+  </a>
+</div>
+      </div>
     </div>
 
+    {/* Portfolio Project */}
     <div className="project-card">
       <img
         src="/portfolio-project.jpg"
@@ -231,13 +245,26 @@ function App() {
         className="project-img"
       />
 
-      <h3>Personal Portfolio</h3>
+      <div className="project-content">
+        <h3>Personal Portfolio</h3>
 
-      <p>
-        Built a modern React portfolio showcasing technical
-        skills, projects, and professional experience with
-        responsive design.
-      </p>
+        <p>
+          Built a modern React portfolio website showcasing
+          technical skills, projects, and professional background
+          with responsive design and animations.
+        </p>
+
+       <div className="project-links">
+  <a
+    href="https://your-portfolio.netlify.app"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="demo-btn"
+  >
+    Live Demo
+  </a>
+</div>
+      </div>
     </div>
 
   </div>
