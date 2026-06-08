@@ -26,29 +26,39 @@ import {
 
 
 function App() {
-  const [showNav, setShowNav] = useState(true);
-  const [loading, setLoading] = useState(true);
-const projects = [
-  {
-    title: "OJT Website System",
-    img: "/ojt-project.jpg",
-    desc: "Developed a responsive website during my internship.",
-    link: "https://schedulingsystem-ten.vercel.app/"
-  },
-  {
-    title: "Coffee Reservation System",
-    img: "/coffeeproject.jpg",
-    desc: "Built using HTML, CSS, and JavaScript.",
-    link: "https://coffee-reservation-nine.vercel.app/"
-  },
-  {
-    title: "Portfolio Project",
-    img: "/coffeeproject.jpg",
-    desc: "Personal portfolio website.",
-    link: "https://coffee-reservation-nine.vercel.app/"
+const [showNav, setShowNav] = useState(true);
+const [loading, setLoading] = useState(true);
+const [message, setMessage] = useState("");
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+
+
+const handleSubmit = async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+      }),
+    });
+
+    const data = await response.json();
+
+    alert(data.message);
+
+    setName("");
+    setEmail("");
+    setMessage("");
+  } catch (error) {
+    console.error(error);
+    alert("Failed to send message");
   }
-];
-const [currentProject, setCurrentProject] = useState(0);
+};
   // Splash Screen
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -226,125 +236,141 @@ const [currentProject, setCurrentProject] = useState(0);
   <h2 className="section-title">Projects</h2>
 
   <div className="projects-container">
-return (
-  <div>
+   {/* OJT Project */}
+<div className="project-card">
+  <img
+    src="/ojt-project.jpg"
+    alt="OJT Website System"
+    className="project-img"
+  />
 
-    {/* Project Card */}
-    <div className="project-card">
-      <img src={projects[currentProject].img} alt="" />
+  <div className="project-content">
+    <h3>OJT Website System</h3>
 
-      <h3>{projects[currentProject].title}</h3>
+    <p>
+      Developed a responsive website during my internship,
+      featuring database integration, user authentication,
+      and modern UI design.
+    </p>
 
-      <p>{projects[currentProject].desc}</p>
-
-      <a href={projects[currentProject].link}>
+    <div className="project-links">
+      <a
+        href="https://schedulingsystem-ten.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="demo-btn"
+      >
         Live Demo
       </a>
     </div>
+  </div>
+</div>
 
-    {/* NAVIGATION BUTTONS */}
-    <div className="project-nav">
 
-      <button
-        onClick={() =>
-          setCurrentProject((prev) =>
-            prev === 0 ? projects.length - 1 : prev - 1
-          )
-        }
+{/* Coffee Reservation Project (KEEP ONLY THIS ONCE) */}
+<div className="project-card">
+  <img
+    src="/coffeeproject.jpg"
+    alt="Coffee Reservation System"
+    className="project-img"
+  />
+
+  <div className="project-content">
+    <h3>Coffee Reservation System</h3>
+
+    <p>
+      Built a Coffee Reservation System using HTML, CSS, and JavaScript
+      with a responsive and user-friendly interface for managing coffee reservations.
+    </p>
+
+    <div className="project-links">
+      <a
+        href="https://coffee-reservation-nine.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="demo-btn"
       >
-        Prev
+        Live Demo
+      </a>
+    </div>
+  </div>
+</div>
+
+  </div>
+</section>
+<section id="contact">
+  <h2 className="section-title">Contact Me</h2>
+
+  <div className="contact-container">
+
+    {/* LEFT SIDE */}
+    <div className="contact-form">
+
+      <div className="input-box">
+        <FaUser className="input-icon" />
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+
+      <div className="input-box">
+        <FaEnvelope className="input-icon" />
+        <input
+          type="email"
+          placeholder="Your Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+
+      <div className="input-box textarea-box">
+        <FaCommentDots className="input-icon textarea-icon" />
+        <textarea
+          placeholder="Your Message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        ></textarea>
+      </div>
+
+      <button className="btn" onClick={handleSubmit}>
+        Send Message
       </button>
 
-      <button
-        onClick={() =>
-          setCurrentProject((prev) =>
-            prev === projects.length - 1 ? 0 : prev + 1
-          )
-        }
-      >
-        Next
+    </div>
+
+    {/* RIGHT SIDE */}
+    <div className="contact-comments">
+
+      <h3 className="comments-title">Comments</h3>
+
+      <p className="comment-caption">
+        Leave your thoughts here
+      </p>
+
+      <div className="input-box textarea-box comment-input">
+        <FaCommentDots className="input-icon" />
+
+        <textarea
+          placeholder="Write your comment..."
+          rows="4"
+        ></textarea>
+      </div>
+
+      <button className="btn">
+        Post Comment
       </button>
 
     </div>
 
   </div>
-);
-  </div>
-</section>
-     
-<section id="contact" className="contact-section">
-  <h2 className="section-title">Contact Me</h2>
-  <p className="contact-subtitle">
-    Have something in mind? Send a message and let's connect.
-  </p>
-
-  <div className="contact-container">
-
-
-
-<div className="contact-form">
-
-  {/* NAME */}
-  <div className="input-box">
-    <FaUser className="input-icon" />
-    <input type="text" placeholder="Your Name" />
-  </div>
-
-  {/* EMAIL */}
-  <div className="input-box">
-    <FaEnvelope className="input-icon" />
-    <input type="email" placeholder="Your Email" />
-  </div>
-
-  {/* MESSAGE */}
-  <div className="input-box textarea-box">
-    <FaCommentDots className="input-icon textarea-icon" />
-    <textarea placeholder="Your Message"></textarea>
-  </div>
-
-  <button className="btn">Send Message</button>
-
-</div>
-
-
-
-{/* RIGHT SIDE - COMMENTS */}
-<div className="contact-comments">
-
-  <h3 className="comments-title">Comments</h3>
-
-  <p className="comment-caption">
-    Leave your thoughts here
-  </p>
-
-{/* COMMENT INPUT */}
-<div className="input-box textarea-box comment-input">
-
-  <FaCommentDots className="input-icon" />
-
-  <textarea
-    placeholder="Write your comment..."
-    rows="4"
-  />
-
-</div>
-
-  {/* BUTTON */}
-  <button className="btn">
-    Post Comment
-  </button>
-
- 
-
-</div>
-
-
-  </div>
 </section>
 
-      <footer>
-        © 2026 Arvie L. Galiza. All Rights Reserved.
-      </footer>
+<footer>
+  © 2026 Arvie L. Galiza. All Rights Reserved.
+</footer>
     </>
   );
 }

@@ -255,25 +255,37 @@ footer {
   color: #cbd5e1;
   margin-bottom: 40px;
 }
+.contact-section {
+  padding: 100px 10%;
+}
 
 .contact-container {
   display: flex;
-  gap: 30px;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
 }
 
-/* LEFT SIDE */
-.contact-form,
-.contact-comments {
-  flex: 1;
-  min-width: 300px;
-  padding: 50px;
+.contact-form {
+  width: 700px;
+  padding: 40px;
+
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
 }
+
+.contact-comments {
+  width: 350px;
+  padding: 40px;
+
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+}
+
 
 /* INPUT WRAPPER */
 .input-box {
@@ -324,31 +336,20 @@ textarea {
   resize: none;
 }
 
-
-.contact-comments {
-  padding: 25px;
-  border-radius: 15px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
 }
 
-.comments-title {
-  margin-bottom: 10px;
-}
-
-.comment-card {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.05);
-  border-left: 3px solid  orange;
-}
 
 
 
 .comment-input {
-  position: relative;
+  position:relative;
 }
 
 /* TEXTAREA */
@@ -507,19 +508,9 @@ textarea {
 .project-links {
   margin-top: auto;
   display: flex;
-  justify-content: flex-end; /* CHANGED: move button to right */
-  padding-top: 10px;
-}
-
-/* optional if you ever want left button */
-.project-links.left {
-  justify-content: flex-start;
-}
-
-/* optional center (your current default was center) */
-.project-links.center {
   justify-content: center;
 }
+
 .demo-btn {
   text-decoration: none;
   padding: 10px 20px;
