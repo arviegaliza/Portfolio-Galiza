@@ -5,7 +5,8 @@ const sendMessage = async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: email,
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+      replyTo: email, // IMPORTANT FIX
       to: process.env.EMAIL_USER,
       subject: `New Contact Message from ${name}`,
       text: `
@@ -19,7 +20,7 @@ ${message}
 
     res.status(200).json({ message: "Message sent successfully!" });
   } catch (error) {
-    console.error(error);
+    console.error("Email error:", error);
     res.status(500).json({ message: "Failed to send message" });
   }
 };

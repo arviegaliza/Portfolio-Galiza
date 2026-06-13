@@ -183,57 +183,179 @@ section {
 }
 
 
+
+
 /* ===========================
-   CARDS
+   SKILLS WRAPPER
 =========================== */
-.card-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+.skills-wrapper {
+  padding: 80px 10%;
+  text-align: center;
 }
 
-.skill-card {
+/* CATEGORY TITLE */
+.skills-category {
+  margin: 50px 0 20px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+}
+
+.skills-category::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 3px;
+  margin: 8px auto 0;
+  background: linear-gradient(90deg, orange, #ff6a00);
+  border-radius: 10px;
+}
+
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  gap:1px;
+  justify-items:center;
+  margin-top:10px;
+}
+
+/* ===========================
+   LINKND,GITHUB, RESUME
+=========================== */
+
+.hero-links {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  min-width: 90px;
+  gap: 15px;
+  margin-top: 1px;
 }
 
-.skill-icon {
-  font-size: 2.8rem;
-  margin-bottom: 8px;
-  transition: 0.3s ease;
-  animation: floatIcon 3s ease-in-out infinite;
+.social-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.skill-card:hover .skill-icon {
-  transform: translateY(-5px) scale(1.1);
-}
+.icon-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-@keyframes floatIcon {
-  0% {
-    transform: translateY(0);
-  }
+  padding: 10px 16px;
+  border-radius: 10px;
 
-  50% {
-    transform: translateY(-8px);
-  }
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.skill-card h3 {
-  font-size: 0.95rem;
-  font-weight: 500;
   color: white;
+  text-decoration: none;
+
+  transition: 0.3s ease;
 }
 
+.icon-btn:hover {
+  transform: translateY(-3px);
+  border-color: orange;
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.3);
+}
+
+.resume-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 18px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, orange, #ff6a00);
+  color: white;
+  text-decoration: none;
+
+  font-weight: bold;
+
+  transition: 0.3s ease;
+}
+
+.resume-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
+}
+/* ===========================
+   SKILL CARD
+=========================== */
+.skill-card{
+  width:100px;
+  height:100px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(10px);
+
+  border-radius:14px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+
+  transition:.3s ease;
+}
+
+/* hover glow */
+.skill-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top,rgba(255,165,0,.25),transparent 70%);
+  opacity:0;
+  transition:.3s;
+}
+
+.skill-card:hover::before{
+  opacity:1;
+}
+
+.skill-card:hover{
+  transform:translateY(-6px) scale(1.04);
+  border-color:rgba(255,165,0,.5);
+  box-shadow:0 10px 20px rgba(255,165,0,.18);
+}
+
+/* ===========================
+   ICON
+=========================== */
+.skill-icon{
+  font-size:2.2rem;
+  margin-bottom:4px;
+  transition:.3s ease;
+  animation:float 4s ease-in-out infinite;
+}
+
+.skill-card:hover .skill-icon{
+  transform:scale(1.15);
+}
+
+/* TEXT */
+.skill-card h3{
+  font-size:.8rem;
+  font-weight:500;
+  color:#e2e8f0;
+  text-align:center;
+}
+
+/* FLOAT ANIMATION */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
 
 /* ===========================
    FOOTER
@@ -579,81 +701,6 @@ textarea {
 }
 
 
-/* CERTIFICATIONS SECTION */
-#certifications {
-  padding: 100px 10%;
-  overflow: hidden;
-}
-
-/* SLIDER WRAPPER */
-.certifications-slider {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-/* MOVING TRACK */
-.certifications-track {
-  display: flex;
-  gap: 50px; /* ✅ proper visible spacing */
-  width: max-content;
-  animation: slideCertificates 20s linear infinite;
-  align-items: stretch;
-}
-
-/* CERTIFICATE CARD */
-.cert-card {
-  flex: 0 0 auto; /* ✅ prevents shrinking */
-  width: 400px;
-  min-height: 280px;
-
-  background: rgba(255, 255, 255, 0.04);
-  border: 2px solid orange;
-  border-radius: 20px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 0 10px rgba(255, 165, 0, 0.4),
-    0 0 20px rgba(255, 165, 0, 0.2);
-
-  transition: 0.3s ease;
-}
-
-/* HOVER EFFECT */
-.cert-card:hover {
-  transform: translateY(-8px);
-
-  box-shadow:
-    0 0 20px orange,
-    0 0 40px rgba(255, 165, 0, 0.5);
-}
-
-/* IMAGE */
-.cert-card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
-}
-
-/* TITLE */
-.cert-card h3 {
-  padding: 15px;
-  text-align: center;
-  color: white;
-}
-
-/* ANIMATION */
-@keyframes slideCertificates {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
 /* ===========================
    ANIMATIONS
 =========================== */

@@ -1,5 +1,13 @@
 {
-  "dependencies": {
-    "react-fast-marquee": "^1.6.5"
+  "name": "portfolio-arvie",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "npm start --prefix frontend",
+    "server": "node backend/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }

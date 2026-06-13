@@ -4,6 +4,7 @@ import { TypeAnimation } from "react-type-animation";
 import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
+
 import {
   FaHtml5,
   FaCss3Alt,
@@ -12,7 +13,9 @@ import {
   FaNodeJs,
   FaGithub,
   FaGit,
-  FaPython
+  FaPython,
+  FaLinkedin,
+  FaFileDownload
 } from "react-icons/fa";
 
 import {
@@ -22,7 +25,6 @@ import {
   SiVercel,
   SiRender,
   SiNetlify,
-  SiPytorch
 } from "react-icons/si";
 
 
@@ -108,7 +110,6 @@ const handleSubmit = async () => {
           <a href="#about">About</a>
           <a href="#skills">Skills</a>
           <a href="#projects">Projects</a>
-          <a href="#certifications">Certifications</a>
           <a href="#contact">Contact</a>
         </div>
       </nav>
@@ -150,9 +151,38 @@ const handleSubmit = async () => {
         </div>
       </section>
 
+      
+      <div className="hero-links">
+  <div className="social-links">
+    <a
+      href="https://www.linkedin.com/in/YOUR-LINK"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="icon-btn"
+    >
+      <FaLinkedin /> LinkedIn
+    </a>
+
+    <a
+      href="https://github.com/YOUR-GITHUB"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="icon-btn"
+    >
+      <FaGithub /> GitHub
+    </a>
+  </div>
+
+  <a href="/Resume.pdf" download className="resume-btn">
+    <FaFileDownload /> Download Resume
+  </a>
+</div>
+
 <section id="skills">
   <h2 className="section-title">Skills</h2>
 
+  {/* FRONTEND */}
+  <h3 className="skills-category">Frontend</h3>
   <div className="card-grid">
 
     <div className="skill-card">
@@ -175,6 +205,12 @@ const handleSubmit = async () => {
       <h3>React.js</h3>
     </div>
 
+  </div>
+
+  {/* BACKEND */}
+  <h3 className="skills-category">Backend</h3>
+  <div className="card-grid">
+
     <div className="skill-card">
       <FaNodeJs className="skill-icon" style={{ color: "#339933" }} />
       <h3>Node.js</h3>
@@ -186,6 +222,17 @@ const handleSubmit = async () => {
     </div>
 
     <div className="skill-card">
+      <FaPython className="skill-icon" style={{ color: "#3776AB" }} />
+      <h3>Python</h3>
+    </div>
+
+  </div>
+
+  {/* DATABASE */}
+  <h3 className="skills-category">Database</h3>
+  <div className="card-grid">
+
+    <div className="skill-card">
       <SiMysql className="skill-icon" style={{ color: "#4479A1" }} />
       <h3>MySQL</h3>
     </div>
@@ -195,15 +242,11 @@ const handleSubmit = async () => {
       <h3>PostgreSQL</h3>
     </div>
 
-    <div className="skill-card">
-      <FaPython className="skill-icon" style={{ color: "#3776AB" }} />
-      <h3>Python</h3>
-    </div>
+  </div>
 
-    <div className="skill-card">
-      <SiPytorch className="skill-icon" style={{ color: "#EE4C2C" }} />
-      <h3>PyTorch</h3>
-    </div>
+  {/* TOOLS */}
+  <h3 className="skills-category">Tools</h3>
+  <div className="card-grid">
 
     <div className="skill-card">
       <FaGit className="skill-icon" style={{ color: "#F05032" }} />
@@ -234,8 +277,8 @@ const handleSubmit = async () => {
 </section>
 
 {/* Projects Section */}
-<section className="projects-section">
- <h2 className="section-title">Projects</h2>
+<section id="projects" className="projects-section">
+  <h2 className="section-title">Projects</h2>
 
   <Marquee speed={50} pauseOnHover={true} gradient={false}>
 
@@ -267,7 +310,7 @@ const handleSubmit = async () => {
 
     {/* Project 2 */}
     <div className="project-card">
-      <img src="/coffee-project.jpg" alt="Coffee Project" className="project-img" />
+      <img src="/coffeeproject.jpg" alt="Coffee Project" className="project-img" />
 
       <div className="project-content">
         <h3>Coffee Reservation System</h3>
@@ -292,40 +335,7 @@ const handleSubmit = async () => {
 
   </Marquee>
 </section>
-<section id="certifications" className="certifications-section">
-  <h2 className="section-title">Certifications</h2>
 
-  <Marquee
-    speed={50}
-    pauseOnHover={true}
-    gradient={false}
-  >
-    <div className="cert-card">
-      <img src="/react-cert.jpg" alt="React Certificate" />
-      <h3>React Certificate</h3>
-    </div>
-
-    <div className="cert-card">
-      <img src="/html-cert.jpg" alt="HTML Certificate" />
-      <h3>HTML Certificate</h3>
-    </div>
-
-    <div className="cert-card">
-      <img src="/css-cert.jpg" alt="CSS Certificate" />
-      <h3>CSS Certificate</h3>
-    </div>
-
-    <div className="cert-card">
-      <img src="/js-cert.jpg" alt="JavaScript Certificate" />
-      <h3>JavaScript Certificate</h3>
-    </div>
-
-    <div className="cert-card">
-      <img src="/python-cert.jpg" alt="Python Certificate" />
-      <h3>Python Certificate</h3>
-    </div>
-  </Marquee>
-</section>
 <section id="contact" className="contact-section">
   <h2 className="section-title">Contact Me</h2>
 
