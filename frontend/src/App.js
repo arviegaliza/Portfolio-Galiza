@@ -34,32 +34,50 @@ const [loading, setLoading] = useState(true);
 const [message, setMessage] = useState("");
 const [name, setName] = useState("");
 const [email, setEmail] = useState("");
-
+const [toast, setToast] = useState({ message: "", type: "" });
 
 const handleSubmit = async () => {
   try {
+    if (!name || !email || !message) {
+      setToast({ message: "Please fill in all fields", type: "error" });
+
+      setTimeout(() => {
+        setToast({ message: "", type: "" });
+      }, 3000);
+
+      return;
+    }
+
     const response = await fetch("http://localhost:5000/api/contact", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, message }),
     });
 
     const data = await response.json();
 
-    alert(data.message);
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to send message");
+    }
+
+    setToast({ message: "Message sent successfully!", type: "success" });
 
     setName("");
     setEmail("");
     setMessage("");
+
+    setTimeout(() => {
+      setToast({ message: "", type: "" });
+    }, 3000);
+
   } catch (error) {
-    console.error(error);
-    alert("Failed to send message");
+    console.error("Submit error:", error);
+
+    setToast({ message: error.message, type: "error" });
+
+    setTimeout(() => {
+      setToast({ message: "", type: "" });
+    }, 3000);
   }
 };
   // Splash Screen
@@ -103,6 +121,12 @@ const handleSubmit = async () => {
 
   return (
     <>
+  {/* 👇 PUT TOAST HERE (TOP OF PAGE / ABOVE CONTACT FORM) */}
+    {toast.message && (
+      <div className={`toast ${toast.type}`}>
+        {toast.message}
+      </div>
+    )}
       <nav className={`navbar ${showNav ? "show" : "hide"}`}>
         <div className="logo">Arvie.</div>
 

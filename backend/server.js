@@ -1,18 +1,22 @@
-const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
 
-const contactRoutes = require("./routes/contactRoutes");
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+// 🔥 MUST BE FIRST (before routes)
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// routes AFTER middleware
+const contactRoutes = require("./routes/contactRoutes");
 app.use("/api/contact", contactRoutes);
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
 });

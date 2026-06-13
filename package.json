@@ -1,13 +1,13 @@
 {
   "name": "portfolio-arvie",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "client": "npm start --prefix frontend",
     "server": "node backend/server.js",
+    "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^10.0.3"
   }
 }
