@@ -4,6 +4,8 @@ import { TypeAnimation } from "react-type-animation";
 import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
+import { db } from "./firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 import {
   FaHtml5,
@@ -35,7 +37,31 @@ const [message, setMessage] = useState("");
 const [name, setName] = useState("");
 const [email, setEmail] = useState("");
 const [toast, setToast] = useState({ message: "", type: "" });
+const [comment, setComment] = useState("");
+const [comments, setComments] = useState([]);
+const loadComments = async () => {
+  const snapshot = await getDocs(collection(db, "comments"));
 
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  console.log(data); // Check browser console
+
+  setComments(data);
+};
+const handlePost = async () => {
+  if (!comment.trim()) return;
+
+  await addDoc(collection(db, "comments"), {
+    text: comment,
+    time: Date.now(),
+  });
+
+  setComment("");
+  loadComments();
+};
 const handleSubmit = async () => {
   try {
     if (!name || !email || !message) {
@@ -109,6 +135,11 @@ const handleSubmit = async () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  // 👇 PUT IT HERE
+  useEffect(() => {
+    loadComments();
+  }, []);
+
 
   // Show splash screen first
   if (loading) {
@@ -118,6 +149,8 @@ const handleSubmit = async () => {
       </div>
     );
   }
+
+  
 
   return (
     <>
@@ -406,30 +439,49 @@ const handleSubmit = async () => {
       </button>
 
     </div>
+{/* RIGHT SIDE */}
+<div className="contact-comments">
 
-    {/* RIGHT SIDE */}
-    <div className="contact-comments">
+  <h3 className="comments-title">Comments</h3>
 
-      <h3 className="comments-title">Comments</h3>
+  <p className="comment-caption">
+    Leave your thoughts here
+  </p>
 
-      <p className="comment-caption">
-        Leave your thoughts here
-      </p>
+  {/* INPUT */}
+  <div className="input-box textarea-box comment-input">
+    <FaCommentDots className="input-icon" />
 
-      <div className="input-box textarea-box comment-input">
-        <FaCommentDots className="input-icon" />
+    <textarea
+      placeholder="Write your comment..."
+      rows={4}
+      value={comment}
+      onChange={(e) => setComment(e.target.value)}
+    ></textarea>
+  </div>
 
-        <textarea
-          placeholder="Write your comment..."
-          rows="4"
-        ></textarea>
+  {/* BUTTON */}
+  <button className="btn" onClick={handlePost}>
+    Post Comment
+  </button>
+
+</div>
+
+{/* SEPARATE COMMENTS TABLE (ONLY ONE LIST) */}
+<div className="comments-table-section">
+
+  <h4>All Comments</h4>
+
+  <div className="comments-table">
+    {comments.map((c) => (
+      <div key={c.id} className="comment-row">
+        {c.text}
       </div>
+    ))}
+  </div>
 
-      <button className="btn">
-        Post Comment
-      </button>
+</div>
 
-    </div>
 
   </div>
 </section>

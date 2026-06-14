@@ -183,23 +183,23 @@ section {
 }
 
 
-
-
 /* ===========================
-   SKILLS WRAPPER
+   SKILLS WRAPPER (IMPROVED)
 =========================== */
 .skills-wrapper {
-  padding: 80px 10%;
+  padding: 90px 8%;
   text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 /* CATEGORY TITLE */
 .skills-category {
-  margin: 50px 0 20px;
-  font-size: 1.4rem;
+  margin: 60px 0 30px;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   position: relative;
   display: inline-block;
 }
@@ -209,19 +209,67 @@ section {
   display: block;
   width: 60%;
   height: 3px;
-  margin: 8px auto 0;
-  background: linear-gradient(90deg, orange, #ff6a00);
-  border-radius: 10px;
+  margin: 12px auto 0;
+  background: linear-gradient(90deg, #ff9800, #ff4d00);
+  border-radius: 50px;
+  opacity: 0.9;
 }
 
-.card-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
-  gap:1px;
-  justify-items:center;
-  margin-top:10px;
+/* GRID WRAPPER */
+.card-grid {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 25px;
 }
 
+/* SKILL CARD */
+.skill-card {
+  width: 110px;
+  height: 110px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(12px);
+
+  text-align: center;
+  transition: all 0.25s ease;
+
+  cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.skill-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 140, 0, 0.6);
+  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.15);
+}
+
+/* ICON INSIDE CARD (if you have icons) */
+.skill-card img,
+.skill-card svg {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+/* TEXT INSIDE CARD */
+.skill-card span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #eaeaea;
+}
 /* ===========================
    LINKND,GITHUB, RESUME
 =========================== */
@@ -534,6 +582,64 @@ footer {
 textarea {
   min-height: 140px;
   resize: none;
+}
+
+.comments-table-section {
+  margin-top: 35px;
+  text-align: left;
+
+  /* NEW: control width */
+  max-width: 500px;
+  width: 100%;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.comments-table-section h4 {
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-size: 1.05rem;
+  opacity: 0.9;
+}
+
+/* TABLE BOX */
+.comments-table {
+  max-height: 300px; /* slightly bigger */
+  overflow-y: auto;
+
+  padding: 14px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(12px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* COMMENT ROW */
+.comment-row {
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  color: #f1f1f1;
+  word-break: break-word;
+
+  transition: 0.2s ease;
+}
+
+/* HOVER */
+.comment-row:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 106, 0, 0.08);
+  border-color: rgba(255, 106, 0, 0.3);
 }
 
 
