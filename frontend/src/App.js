@@ -68,21 +68,34 @@ const handlePost = async () => {
     console.log("ERROR SAVING COMMENT:", error);
   }
 };
-const handleSubmit = async () => {
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
   try {
     if (!name || !email || !message) {
       setToast({ message: "Please fill in all fields", type: "error" });
-
       setTimeout(() => setToast({ message: "", type: "" }), 3000);
       return;
     }
 
-    await addDoc(collection(db, "contacts"), {
-      name,
-      email,
-      message,
-      createdAt: new Date(),
+    // 🔥 CALL BACKEND (this triggers Gmail)
+    const res = await fetch("https://portfolio-galiza.onrender.com/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+      }),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to send message");
+    }
 
     setToast({ message: "Message sent successfully!", type: "success" });
 

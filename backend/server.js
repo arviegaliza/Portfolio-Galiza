@@ -2,36 +2,30 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const admin = require('firebase-admin'); // ✅ default import
 
 const app = express();
 
 /* =========================
-   ENV VARIABLES (SAFE)
+   CORS FIX (IMPORTANT)
 ========================= */
-const {
-  FIREBASE_PROJECT_ID,
-  FIREBASE_CLIENT_EMAIL,
-  FIREBASE_PRIVATE_KEY,
-  PORT,
-} = process.env;
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://portfolio-arvie.netlify.app"
+];
 
-/* =========================
-   SAFETY CHECK
-========================= */
-if (!FIREBASE_PROJECT_ID || !FIREBASE_CLIENT_EMAIL || !FIREBASE_PRIVATE_KEY) {
-  throw new Error("❌ Missing Firebase environment variables in .env");
-}
-
-
-
-
-console.log("✅ Firebase Admin initialized");
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+}));
 
 /* =========================
    MIDDLEWARE
 ========================= */
-app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -51,8 +45,8 @@ app.get("/", (req, res) => {
 /* =========================
    START SERVER
 ========================= */
-const PORT_NUMBER = PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-app.listen(PORT_NUMBER, () => {
-  console.log(`🚀 Server running on port ${PORT_NUMBER}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
