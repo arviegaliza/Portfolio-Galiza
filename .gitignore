@@ -68,3 +68,7 @@ node_modules/
 # dataconnect generated files
 .dataconnect
 *.json
+
+.env
+node_modules
+serviceAccountKey.json
