@@ -5,7 +5,18 @@ import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
 import { db } from "./firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 import {
   FaHtml5,
@@ -39,8 +50,11 @@ const [email, setEmail] = useState("");
 const [toast, setToast] = useState({ message: "", type: "" });
 const [comment, setComment] = useState("");
 const [comments, setComments] = useState([]);
+const auth = getAuth();
+const [userId, setUserId] = useState(null);
 const loadComments = async () => {
-  const snapshot = await getDocs(collection(db, "comments"));
+const snapshot = await getDocs(collection(db, "comments"));
+
 
   const data = snapshot.docs.map((doc) => ({
     id: doc.id,
@@ -51,23 +65,124 @@ const loadComments = async () => {
 
   setComments(data);
 };
+
+const handleDelete = async (id) => {
+  try {
+    await deleteDoc(doc(db, "comments", id));
+    loadComments();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleEdit = async (id, currentText) => {
+  const newText = prompt("Edit your comment:", currentText);
+
+  if (!newText || !newText.trim()) return;
+
+  try {
+    await updateDoc(doc(db, "comments", id), {
+      text: newText,
+    });
+
+    loadComments();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleReply = async (commentId, replies = []) => {
+  const replyText = prompt("Write your reply:");
+  if (!replyText?.trim()) return;
+
+  try {
+    await updateDoc(doc(db, "comments", commentId), {
+      replies: [
+        ...replies,
+        {
+          id: Date.now(),
+          text: replyText,
+          ownerId: userId,
+        },
+      ],
+    });
+
+    loadComments(); // ✅ inside try
+  } catch (error) {
+    console.error(error);
+  }
+};
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    setUserId(user?.uid || null);
+  });
+
+  return unsubscribe;
+}, [auth]);
+const handleDeleteReply = async (
+  commentId,
+  replyId,
+  replies
+) => {
+  try {
+    await updateDoc(doc(db, "comments", commentId), {
+      replies: replies.filter(
+        (reply) => reply.id !== replyId
+      ),
+    });
+
+    loadComments();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleEditReply = async (
+  commentId,
+  replyId,
+  replies
+) => {
+  const newText = prompt("Edit reply:");
+
+  if (!newText || !newText.trim()) return;
+
+  try {
+    await updateDoc(doc(db, "comments", commentId), {
+      replies: replies.map((reply) =>
+        reply.id === replyId
+          ? { ...reply, text: newText }
+          : reply
+      ),
+    });
+
+    loadComments();
+  } catch (error) {
+    console.error(error);
+  }
+};
 const handlePost = async () => {
   if (!comment.trim()) return;
+
+  if (!userId) {
+    alert("You must be logged in to comment");
+    return;
+  }
 
   try {
     await addDoc(collection(db, "comments"), {
       text: comment,
       time: Date.now(),
+      ownerId: userId,
+      replies: [],
     });
-
-    console.log("Comment saved!");
 
     setComment("");
     loadComments();
   } catch (error) {
-    console.log("ERROR SAVING COMMENT:", error);
+    console.error("ERROR SAVING COMMENT:", error);
   }
 };
+   
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -485,12 +600,129 @@ const handleSubmit = async (e) => {
   <h4>All Comments</h4>
 
   <div className="comments-table">
-    {comments.map((c) => (
+  {comments.length === 0 ? (
+    <p className="no-comments">No comments yet. Be the first to comment!</p>
+  ) : (
+    comments.map((c) => (
       <div key={c.id} className="comment-row">
-        {c.text}
+
+        {/* COMMENT HEADER */}
+        <div className="comment-header">
+          <div className="comment-avatar">
+            {c.text?.charAt(0).toUpperCase()}
+          </div>
+
+          <div>
+            <div className="comment-user">Anonymous</div>
+
+            <div className="comment-time">
+              {c.time
+                ? new Date(c.time).toLocaleString()
+                : "Just now"}
+            </div>
+          </div>
+        </div>
+
+        {/* COMMENT TEXT */}
+        <div className="comment-text">
+          {c.text}
+        </div>
+
+        {/* ACTIONS */}
+<div className="comment-actions">
+
+  <button
+    className="reply-btn"
+    onClick={() => handleReply(c.id, c.replies || [])}
+  >
+    Reply
+  </button>
+
+  {c.ownerId === userId && (
+    <>
+      <button
+        className="edit-btn"
+        onClick={() => handleEdit(c.id, c.text)}
+      >
+        Edit
+      </button>
+
+      <button
+        className="delete-btn"
+        onClick={() => handleDelete(c.id)}
+      >
+        Delete
+      </button>
+    </>
+  )}
+
+</div>
+
+        {/* REPLIES */}
+        {c.replies?.length > 0 && (
+          <div className="replies-container">
+
+            {c.replies.map((reply) => (
+              <div key={reply.id} className="reply-row">
+
+                <div className="comment-header">
+                  <div className="comment-avatar">
+                    R
+                  </div>
+
+                  <div>
+                    <div className="comment-user">
+                      Anonymous
+                    </div>
+
+                    <div className="comment-time">
+                      Reply
+                    </div>
+                  </div>
+                </div>
+
+                <div className="reply-text">
+                  {reply.text}
+                </div>
+
+                <div className="comment-actions">
+                  <button
+                    className="edit-btn"
+                    onClick={() =>
+                      handleEditReply(
+                        c.id,
+                        reply.id,
+                        c.replies
+                      )
+                    }
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="delete-btn"
+                    onClick={() =>
+                      handleDeleteReply(
+                        c.id,
+                        reply.id,
+                        c.replies
+                      )
+                    }
+                  >
+                    Delete
+                  </button>
+                </div>
+
+              </div>
+            ))}
+
+          </div>
+        )}
+
       </div>
-    ))}
-  </div>
+    ))
+  )}
+</div>
 
 </div>
 
