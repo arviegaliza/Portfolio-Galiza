@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:3000", "https://portfolio-arvie.netlify.app"]
+  origin: ["http://localhost:3000", "https://portfoliorvqwry.netlify.app"]
 }));
 
 app.use(express.json());
