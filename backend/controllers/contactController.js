@@ -3,8 +3,6 @@ const { db } = require("../config/firebase");
 
 const sendMessage = async (req, res) => {
   try {
-    console.log("BODY RECEIVED:", req.body);
-
     const { name, email, message } = req.body;
 
     if (!name || !email || !message) {
@@ -13,7 +11,7 @@ const sendMessage = async (req, res) => {
       });
     }
 
-    // FIRESTORE SAVE
+    // SAVE TO FIRESTORE
     await db.collection("contacts").add({
       name,
       email,
@@ -21,8 +19,8 @@ const sendMessage = async (req, res) => {
       createdAt: new Date(),
     });
 
-    // EMAIL SEND
-    const info = await transporter.sendMail({
+    // SEND EMAIL
+    await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       replyTo: email,
@@ -30,17 +28,15 @@ const sendMessage = async (req, res) => {
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     });
 
-    console.log("EMAIL SENT:", info.messageId);
-
     return res.status(200).json({
       message: "Message sent successfully!",
     });
 
   } catch (error) {
-    console.error("EMAIL ERROR:", error);
+    console.error("FULL ERROR:", error);
 
     return res.status(500).json({
-      message: "Failed to send message",
+      message: error.message,
     });
   }
 };
