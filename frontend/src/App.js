@@ -54,13 +54,19 @@ const loadComments = async () => {
 const handlePost = async () => {
   if (!comment.trim()) return;
 
-  await addDoc(collection(db, "comments"), {
-    text: comment,
-    time: Date.now(),
-  });
+  try {
+    await addDoc(collection(db, "comments"), {
+      text: comment,
+      time: Date.now(),
+    });
 
-  setComment("");
-  loadComments();
+    console.log("Comment saved!");
+
+    setComment("");
+    loadComments();
+  } catch (error) {
+    console.log("ERROR SAVING COMMENT:", error);
+  }
 };
 const handleSubmit = async () => {
   try {
