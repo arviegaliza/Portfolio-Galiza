@@ -1,23 +1,25 @@
-const admin = require("firebase-admin");
+const { initializeApp, cert, getApps } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 require("dotenv").config();
 
-// Fix: Safely check if admin.apps exists AND has a length
-if (!admin.apps || admin.apps.length === 0) {
+// 1. Check if the app is already initialized safely using the official helper
+if (getApps().length === 0) {
   
   let privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
   if (privateKey) {
-    // Clean up any stray characters, quotes, or literal text '\n' strings
+    // Clean up any stray quotes or literal text '\n' markers
     privateKey = privateKey.trim().replace(/["']/g, "").replace(/\\n/g, "");
     
-    // Rebuild it into the exact layout OpenSSL demands
+    // Reconstruct the key layout OpenSSL demands if it's missing headers
     if (!privateKey.includes("-----BEGIN PRIVATE KEY-----")) {
       privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----\n`;
     }
   }
 
-  admin.initializeApp({
-    credential: admin.credential.cert({
+  // 2. Initialize using modular methods
+  initializeApp({
+    credential: cert({
       projectId: process.env.FIREBASE_PROJECT_ID,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       privateKey: privateKey,
@@ -25,5 +27,6 @@ if (!admin.apps || admin.apps.length === 0) {
   });
 }
 
-const db = admin.firestore();
+// 3. Export Firestore instance
+const db = getFirestore();
 module.exports = { db };

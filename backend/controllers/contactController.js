@@ -1,5 +1,5 @@
 const transporter = require("../config/mailer");
-const admin = require("firebase-admin");
+const { db } = require("../config/firebase");
 
 const sendMessage = async (req, res) => {
   try {
@@ -13,19 +13,15 @@ const sendMessage = async (req, res) => {
       });
     }
 
-    /* =========================
-       FIREBASE SAVE (optional)
-    ========================= */
-    await admin.firestore().collection("contacts").add({
+    // FIRESTORE SAVE
+    await db.collection("contacts").add({
       name,
       email,
       message,
       createdAt: new Date(),
     });
 
-    /* =========================
-       EMAIL SEND
-    ========================= */
+    // EMAIL SEND
     const info = await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
