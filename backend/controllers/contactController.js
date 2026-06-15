@@ -7,7 +7,6 @@ const sendMessage = async (req, res) => {
 
     const { name, email, message } = req.body;
 
-    // Validate input
     if (!name || !email || !message) {
       return res.status(400).json({
         message: "All fields are required",
@@ -15,7 +14,7 @@ const sendMessage = async (req, res) => {
     }
 
     /* =========================
-       FIREBASE SAVE
+       FIREBASE SAVE (optional)
     ========================= */
     await admin.firestore().collection("contacts").add({
       name,
@@ -23,8 +22,6 @@ const sendMessage = async (req, res) => {
       message,
       createdAt: new Date(),
     });
-
-    console.log("Saved to Firestore");
 
     /* =========================
        EMAIL SEND
@@ -44,11 +41,10 @@ const sendMessage = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("FULL ERROR:", error);
+    console.error("EMAIL ERROR:", error);
 
     return res.status(500).json({
       message: "Failed to send message",
-      error: error.message || "Unknown error",
     });
   }
 };
