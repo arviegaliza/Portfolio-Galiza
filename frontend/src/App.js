@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
 import { db } from "./firebase";
-// remove this
-import { arrayUnion } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
@@ -16,6 +14,7 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  arrayUnion,
 } from "firebase/firestore";
 
 import {
@@ -316,7 +315,7 @@ function App() {
       <div className="hero-links">
         <div className="social-links">
           <a
-            href="https://www.linkedin.com/in/YOUR-LINK"
+            href="https://www.linkedin.com/in/arvie-galiza-29570b3a7/"
             target="_blank"
             rel="noopener noreferrer"
             className="icon-btn"
@@ -325,7 +324,7 @@ function App() {
           </a>
 
           <a
-            href="https://github.com/YOUR-GITHUB"
+            href="https://github.com/arviegaliza/rvqwry_"
             target="_blank"
             rel="noopener noreferrer"
             className="icon-btn"
@@ -622,20 +621,27 @@ function App() {
                               </div>
                             </div>
                             <div className="reply-text">{reply.text}</div>
-                            <div className="comment-actions">
-                              <button
-                                className="edit-btn"
-                                onClick={() => handleEditReply(c.id, reply.id, c.replies)}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="delete-btn"
-                                onClick={() => handleDeleteReply(c.id, reply.id, c.replies)}
-                              >
-                                Delete
-                              </button>
-                            </div>
+                          {reply.ownerId === userId && (
+                                  <div className="comment-actions">
+                                    <button
+                                      className="edit-btn"
+                                      onClick={() =>
+                                        handleEditReply(c.id, reply.id, c.replies)
+                                      }
+                                    >
+                                      Edit
+                                    </button>
+
+                                    <button
+                                      className="delete-btn"
+                                      onClick={() =>
+                                        handleDeleteReply(c.id, reply.id, c.replies)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                )}
                           </div>
                         ))}
                       </div>
