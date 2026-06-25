@@ -3,19 +3,8 @@ import { TypeAnimation } from "react-type-animation";
 import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
-import { db } from "./firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
-import {
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-  arrayUnion,
-} from "firebase/firestore";
 
 import {
   FaHtml5,
@@ -40,126 +29,150 @@ import {
 } from "react-icons/si";
 
 function App() {
+  const API_URL = "https://portfolio-galiza.onrender.com/api/comments";
+
   const [showNav, setShowNav] = useState(true);
   const [loading, setLoading] = useState(true);
+
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
   const [toast, setToast] = useState({ message: "", type: "" });
+
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+
   const [replyText, setReplyText] = useState("");
   const [replyingTo, setReplyingTo] = useState(null);
-  const auth = getAuth();
-  const [userId, setUserId] = useState(null);
+  const userId = "anonymous";
+
 
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
-  const loadComments = async () => {
-    try {
-      const snapshot = await getDocs(collection(db, "comments"));
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setComments(data);
-    } catch (error) {
-      console.error("Error loading comments:", error);
-    }
-  };
 
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "comments", id));
-      loadComments();
-      showToast("Comment deleted successfully!", "success");
-    } catch (error) {
-      console.error(error);
-      showToast("Failed to delete comment", "error");
-    }
-  };
 
+
+  // ---------------- TOAST ----------------
   const showToast = (message, type = "success") => {
     setToast({ message, type });
-    setTimeout(() => {
-      setToast({ message: "", type: "" });
-    }, 3000);
+    setTimeout(() => setToast({ message: "", type: "" }), 3000);
   };
 
- const handleReply = async (commentId) => {
-  if (!replyText.trim()) return;
+  // ---------------- LOAD COMMENTS ----------------
+const loadComments = async () => {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    setComments(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+ const handlePost = async () => {
+  if (!comment.trim()) return;
 
   try {
-    await updateDoc(doc(db, "comments", commentId), {
-      replies: arrayUnion({
-        id: Date.now(),
-        text: replyText,
-        ownerId: userId,
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: comment,
+        ownerId: "anonymous",
       }),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to post comment");
+    }
+
+    setComment("");
+    loadComments();
+    showToast("Comment posted successfully!", "success");
+
+  } catch (error) {
+    console.error("POST ERROR:", error);
+    showToast(error.message, "error");
+  }
+};
+
+  const handleDelete = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) throw new Error();
+
+    loadComments();
+    showToast("Comment deleted!", "success");
+  } catch (error) {
+    console.error(error);
+    showToast("Failed to delete comment", "error");
+  }
+};
+
+  // ---------------- EDIT COMMENT ----------------
+  const handleSaveCommentEdit = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: editText }),
+    });
+
+    if (!res.ok) throw new Error();
+
+    setEditId(null);
+    setEditText("");
+    loadComments();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  // ---------------- REPLY ----------------
+  const handleReply = async (commentId) => {
+  try {
+    const res = await fetch(`${API_URL}/${commentId}/reply`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: replyText,
+        ownerId: userId || "anonymous",
+      }),
+    });
+
+    if (!res.ok) throw new Error();
 
     setReplyText("");
     setReplyingTo(null);
     loadComments();
-
-    showToast("Reply posted successfully!", "success");
-
   } catch (error) {
     console.error(error);
-    showToast("Failed to post reply", "error");
   }
 };
 
-  const handleSaveCommentEdit = async (commentId) => {
-    if (!editText.trim()) return;
-    try {
-      const commentRef = doc(db, "comments", commentId);
-      await updateDoc(commentRef, {
-        text: editText,
-      });
-      setEditId(null);
-      setEditText("");
-      loadComments();
-      showToast("Comment updated successfully!", "success");
-    } catch (error) {
-      console.error(error);
-      showToast("Failed to update comment", "error");
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUserId(user?.uid || null);
-    });
-    return unsubscribe;
-  }, [auth]);
-
-  const handleDeleteReply = async (commentId, replyId, replies) => {
-    try {
-      await updateDoc(doc(db, "comments", commentId), {
-        replies: replies.filter((reply) => reply.id !== replyId),
-      });
-      loadComments();
-      showToast("Reply deleted successfully!", "success");
-    } catch (error) {
-      console.error(error);
-      showToast("Failed to delete reply", "error");
-    }
-  };
-
-  const handleEditReply = async (commentId, replyId, replies) => {
-    const replyToEdit = replies.find((r) => r.id === replyId);
-    const newText = prompt("Edit reply:", replyToEdit ? replyToEdit.text : "");
-
-    if (!newText || !newText.trim()) return;
+  // ---------------- EDIT REPLY ----------------
+  const handleEditReply = async (commentId, replyId) => {
+    const newText = prompt("Edit reply:");
+    if (!newText?.trim()) return;
 
     try {
-      await updateDoc(doc(db, "comments", commentId), {
-        replies: replies.map((reply) =>
-          reply.id === replyId ? { ...reply, text: newText } : reply
-        ),
-      });
+      const res = await fetch(
+        `${API_URL}/${commentId}/reply/${replyId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: newText }),
+        }
+      );
+
+      if (!res.ok) throw new Error();
+
       loadComments();
       showToast("Reply updated successfully!", "success");
     } catch (error) {
@@ -168,55 +181,56 @@ function App() {
     }
   };
 
-  const handlePost = async () => {
-    if (!comment.trim()) return;
+  // ---------------- DELETE REPLY ----------------
+  const handleDeleteReply = async (commentId, replyId) => {
     try {
-      await addDoc(collection(db, "comments"), {
-        text: comment,
-        time: Date.now(),
-        ownerId: userId,
-        replies: [],
-      });
-      setComment("");
+      const res = await fetch(
+        `${API_URL}/${commentId}/reply/${replyId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!res.ok) throw new Error();
+
       loadComments();
-      showToast("Comment posted successfully!", "success");
+      showToast("Reply deleted successfully!", "success");
     } catch (error) {
-      console.error("ERROR SAVING COMMENT:", error);
+      console.error(error);
+      showToast("Failed to delete reply", "error");
     }
   };
 
+  // ---------------- CONTACT FORM ----------------
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       if (!name || !email || !message) {
-        setToast({ message: "Please fill in all fields", type: "error" });
-        setTimeout(() => setToast({ message: "", type: "" }), 3000);
+        showToast("Please fill in all fields", "error");
         return;
       }
 
-      const res = await fetch("https://portfolio-galiza.onrender.com/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, message }),
-      });
+      const res = await fetch(
+        "https://portfolio-galiza.onrender.com/api/contact",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        }
+      );
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to send message");
-      }
+      if (!res.ok) throw new Error(data.message);
 
-      setToast({ message: "Message sent successfully!", type: "success" });
       setName("");
       setEmail("");
       setMessage("");
-      setTimeout(() => setToast({ message: "", type: "" }), 3000);
+      showToast("Message sent successfully!", "success");
     } catch (error) {
-      console.error("Submit error:", error);
-      setToast({ message: error.message, type: "error" });
-      setTimeout(() => setToast({ message: "", type: "" }), 3000);
+      console.error(error);
+      showToast(error.message, "error");
     }
   };
 
