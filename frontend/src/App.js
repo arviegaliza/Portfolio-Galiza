@@ -194,10 +194,12 @@ function App() {
         return;
       }
 
-           await fetch("https://portfolio-galiza.onrender.com/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(formData)
+      const res = await fetch("https://portfolio-galiza.onrender.com/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, message }),
       });
 
       const data = await res.json();
