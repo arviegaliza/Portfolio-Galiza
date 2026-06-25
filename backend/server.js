@@ -19,10 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 const contactRoutes = require("./routes/contactRoutes");
-const commentRoutes = require("./routes/commentRoutes"); // ✅ ADD THIS
 
 app.use("/api/contact", contactRoutes);
-app.use("/api/comments", commentRoutes); // ✅ ADD THIS
+
+
 
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully");
