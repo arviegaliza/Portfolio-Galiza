@@ -5,8 +5,6 @@ const cors = require("cors");
 
 const app = express();
 
-
-
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -15,12 +13,16 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // routes
 const contactRoutes = require("./routes/contactRoutes");
+const commentRoutes = require("./routes/commentRoutes"); // ✅ ADD THIS
+
 app.use("/api/contact", contactRoutes);
+app.use("/api/comments", commentRoutes); // ✅ ADD THIS
 
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully");
