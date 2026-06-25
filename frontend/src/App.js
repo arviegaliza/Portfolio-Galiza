@@ -56,18 +56,15 @@ function App() {
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
-  const loadComments = async () => {
-    try {
-      const snapshot = await getDocs(collection(db, "comments"));
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setComments(data);
-    } catch (error) {
-      console.error("Error loading comments:", error);
-    }
-  };
+const loadComments = async () => {
+  try {
+    const res = await fetch("https://portfolio-galiza.onrender.com/api/comments");
+    const data = await res.json();
+    setComments(data);
+  } catch (error) {
+    console.error("Error loading comments:", error);
+  }
+};
 
   const handleDelete = async (id) => {
     try {
