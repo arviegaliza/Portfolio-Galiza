@@ -186,43 +186,37 @@ function App() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    try {
+      if (!name || !email || !message) {
+        setToast({ message: "Please fill in all fields", type: "error" });
+        setTimeout(() => setToast({ message: "", type: "" }), 3000);
+        return;
+      }
 
-  try {
-    if (!name || !email || !message) {
-      setToast({ message: "Please fill in all fields", type: "error" });
+           await fetch("https://portfolio-galiza.onrender.com/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to send message");
+      }
+
+      setToast({ message: "Message sent successfully!", type: "success" });
+      setName("");
+      setEmail("");
+      setMessage("");
       setTimeout(() => setToast({ message: "", type: "" }), 3000);
-      return;
+    } catch (error) {
+      console.error("Submit error:", error);
+      setToast({ message: error.message, type: "error" });
+      setTimeout(() => setToast({ message: "", type: "" }), 3000);
     }
-
-    const res = await fetch("https://portfolio-galiza.onrender.com/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to send message");
-    }
-
-    setToast({ message: "Message sent successfully!", type: "success" });
-
-    setName("");
-    setEmail("");
-    setMessage("");
-
-    setTimeout(() => setToast({ message: "", type: "" }), 3000);
-  } catch (error) {
-    console.error("Submit error:", error);
-    setToast({ message: error.message, type: "error" });
-  }
-};
+  };
 
   // Splash Screen Setup
   useEffect(() => {
