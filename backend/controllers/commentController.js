@@ -1,6 +1,6 @@
 const pool = require("../db");
 
-/* ================= GET COMMENTS ================= */
+// GET COMMENTS
 const getComments = async (req, res) => {
   try {
     const result = await pool.query(
@@ -12,14 +12,16 @@ const getComments = async (req, res) => {
   }
 };
 
-/* ================= CREATE COMMENT ================= */
+// CREATE COMMENT
 const createComment = async (req, res) => {
   try {
-    const { name, message } = req.body;
+    const { text, ownerId } = req.body;
 
     const result = await pool.query(
-      "INSERT INTO comments (name, message) VALUES ($1, $2) RETURNING *",
-      [name, message]
+      `INSERT INTO comments (text, owner_id, time)
+       VALUES ($1, $2, $3)
+       RETURNING *`,
+      [text, ownerId, Date.now()]
     );
 
     res.status(201).json(result.rows[0]);
@@ -28,15 +30,15 @@ const createComment = async (req, res) => {
   }
 };
 
-/* ================= UPDATE COMMENT ================= */
+// UPDATE COMMENT
 const updateComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { message } = req.body;
+    const { text } = req.body;
 
     const result = await pool.query(
-      "UPDATE comments SET message=$1 WHERE id=$2 RETURNING *",
-      [message, id]
+      "UPDATE comments SET text=$1 WHERE id=$2 RETURNING *",
+      [text, id]
     );
 
     res.json(result.rows[0]);
@@ -45,14 +47,14 @@ const updateComment = async (req, res) => {
   }
 };
 
-/* ================= DELETE COMMENT ================= */
+// DELETE COMMENT
 const deleteComment = async (req, res) => {
   try {
     const { id } = req.params;
 
     await pool.query("DELETE FROM comments WHERE id=$1", [id]);
 
-    res.json({ message: "Deleted successfully" });
+    res.json({ message: "Deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const pool = require("./db"); // ✅ ADD THIS
+const pool = require("./db");
 
 const app = express();
 
@@ -12,12 +12,11 @@ app.use(cors({
     "http://localhost:3000",
     "https://portfoliorvqwry.netlify.app"
   ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 /* ================= ROUTES ================= */
 const contactRoutes = require("./routes/contactRoutes");
@@ -26,31 +25,29 @@ const commentRoutes = require("./routes/commentRoutes");
 app.use("/api/contact", contactRoutes);
 app.use("/api/comments", commentRoutes);
 
-/* ================= TEST ROUTES ================= */
+/* ================= HEALTH CHECK ================= */
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully");
 });
 
-app.get("/test-db", async (req, res) => {
+/* ================= POSTGRES CHECK ================= */
+const checkDatabase = async () => {
   try {
     const result = await pool.query("SELECT NOW()");
-    res.json({
-      success: true,
-      message: "Database is connected",
-      time: result.rows[0],
-    });
+    console.log("🟢 PostgreSQL Connected");
+    console.log("⏰ DB Time:", result.rows[0].now);
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Database connection failed",
-      error: err.message,
-    });
+    console.error("🔴 PostgreSQL Connection Failed:");
+    console.error(err.message);
   }
-});
+};
 
 /* ================= START SERVER ================= */
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
+
+  // check DB when server starts
+  await checkDatabase();
 });
