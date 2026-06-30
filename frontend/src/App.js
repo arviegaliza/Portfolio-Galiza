@@ -29,7 +29,7 @@ import {
 } from "react-icons/si";
 
 function App() {
-  const API_URL = "https://portfolio-galiza.onrender.com/api/comments";
+const API_URL = "http://localhost:5000/api/comments";
 
   const [showNav, setShowNav] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -212,14 +212,13 @@ const loadComments = async () => {
       }
 
       const res = await fetch(
-        "https://portfolio-galiza.onrender.com/api/contact",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, message }),
-        }
-      );
-
+  "http://localhost:5000/api/contact",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, message }),
+  }
+);
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message);
