@@ -3,8 +3,7 @@ import { TypeAnimation } from "react-type-animation";
 import { useState, useEffect } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
-
-
+import { motion } from "framer-motion";
 
 import {
   FaHtml5,
@@ -16,13 +15,18 @@ import {
   FaGit,
   FaPython,
   FaLinkedin,
-  FaFileDownload
+  FaFileDownload,
+  FaBootstrap,
 } from "react-icons/fa";
 
 import {
   SiExpress,
   SiMysql,
   SiPostgresql,
+  SiNextdotjs,
+  SiTailwindcss,
+  SiTypescript,
+  SiHuggingface,
   SiVercel,
   SiRender,
   SiNetlify,
@@ -30,7 +34,36 @@ import {
 
 function App() {
 const API_URL = "http://localhost:5000/api/comments";
+  const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 80,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
+  },
+};
 
+const fadeLeft = {
+  hidden: {
+    opacity: 0,
+    x: -50,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.8,
+      delay: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
   const [showNav, setShowNav] = useState(true);
   const [loading, setLoading] = useState(true);
 
@@ -279,7 +312,7 @@ const loadComments = async () => {
         </div>
       )}
       <nav className={`navbar ${showNav ? "show" : "hide"}`}>
-        <div className="logo">Arvie.</div>
+        <div className="logo">Rv.Dev</div>
         <div className="nav-links">
           <a href="#about">About</a>
           <a href="#skills">Skills</a>
@@ -287,8 +320,14 @@ const loadComments = async () => {
           <a href="#contact">Contact</a>
         </div>
       </nav>
-
-      <section className="hero" id="about">
+          <motion.section
+  className="hero"
+  id="about"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.25 }}
+>
         <div className="hero-content">
           <h1 className="hero-title">
             Hi, I'm <span>Arvie Galiza</span>
@@ -323,116 +362,182 @@ const loadComments = async () => {
         <div className="profile">
           <img src="/profile.jpg" alt="Arvie Galiza" />
         </div>
-      </section>
+      </motion.section>
 
-      <div className="hero-links">
-        <div className="social-links">
-          <a
-            href="https://www.linkedin.com/in/arvie-galiza-29570b3a7/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon-btn"
-          >
-            <FaLinkedin /> LinkedIn
-          </a>
+      
 
-          <a
-            href="https://github.com/arviegaliza/rvqwry_"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon-btn"
-          >
-            <FaGithub /> GitHub
-          </a>
-        </div>
+      <motion.div
+  className="hero-links"
+  variants={fadeLeft}
+  initial="hidden"
+  animate="visible"
+>
+  <div className="social-links">
+    <a
+      href="https://www.linkedin.com/in/arvie-galiza-29570b3a7/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="icon-btn"
+    >
+      <FaLinkedin /> LinkedIn
+    </a>
 
-        <a href="/Resume.pdf" download className="resume-btn">
-          <FaFileDownload /> Download Resume
-        </a>
-      </div>
+    <a
+      href="https://github.com/arviegaliza/rvqwry_"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="icon-btn"
+    >
+      <FaGithub /> GitHub
+    </a>
+  </div>
 
-      <section id="skills">
-        <h2 className="section-title">Skills</h2>
+  <a href="/Resume.pdf" download className="resume-btn">
+    <FaFileDownload /> Download Resume
+  </a>
+</motion.div>
 
-        {/* FRONTEND */}
-        <h3 className="skills-category">Frontend</h3>
-        <div className="card-grid">
-          <div className="skill-card">
-            <FaHtml5 className="skill-icon" style={{ color: "#E34F26" }} />
-            <h3>HTML5</h3>
-          </div>
-          <div className="skill-card">
-            <FaCss3Alt className="skill-icon" style={{ color: "#1572B6" }} />
-            <h3>CSS3</h3>
-          </div>
-          <div className="skill-card">
-            <FaJs className="skill-icon" style={{ color: "#F7DF1E" }} />
-            <h3>JavaScript</h3>
-          </div>
-          <div className="skill-card">
-            <FaReact className="skill-icon" style={{ color: "#61DAFB" }} />
-            <h3>React.js</h3>
-          </div>
-        </div>
+    
+    <motion.section
+  id="skills"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.2 }}
+>
+  <h2 className="section-title">Skills</h2>
 
-        {/* BACKEND */}
-        <h3 className="skills-category">Backend</h3>
-        <div className="card-grid">
-          <div className="skill-card">
-            <FaNodeJs className="skill-icon" style={{ color: "#339933" }} />
-            <h3>Node.js</h3>
-          </div>
-          <div className="skill-card">
-            <SiExpress className="skill-icon" style={{ color: "#FFFFFF" }} />
-            <h3>Express.js</h3>
-          </div>
-          <div className="skill-card">
-            <FaPython className="skill-icon" style={{ color: "#3776AB" }} />
-            <h3>Python</h3>
-          </div>
-        </div>
+  {/* Frontend */}
+  <h3 className="skills-category">Frontend</h3>
+  <div className="card-grid">
+    <div className="skill-card">
+      <FaHtml5 className="skill-icon" style={{ color: "#E34F26" }} />
+      <h3>HTML5</h3>
+    </div>
 
-        {/* DATABASE */}
-        <h3 className="skills-category">Database</h3>
-        <div className="card-grid">
-          <div className="skill-card">
-            <SiMysql className="skill-icon" style={{ color: "#4479A1" }} />
-            <h3>MySQL</h3>
-          </div>
-          <div className="skill-card">
-            <SiPostgresql className="skill-icon" style={{ color: "#336791" }} />
-            <h3>PostgreSQL</h3>
-          </div>
-        </div>
+    <div className="skill-card">
+      <FaCss3Alt className="skill-icon" style={{ color: "#1572B6" }} />
+      <h3>CSS3</h3>
+    </div>
 
-        {/* TOOLS */}
-        <h3 className="skills-category">Tools</h3>
-        <div className="card-grid">
-          <div className="skill-card">
-            <FaGit className="skill-icon" style={{ color: "#F05032" }} />
-            <h3>Git</h3>
-          </div>
-          <div className="skill-card">
-            <FaGithub className="skill-icon" style={{ color: "#FFFFFF" }} />
-            <h3>GitHub</h3>
-          </div>
-          <div className="skill-card">
-            <SiVercel className="skill-icon" style={{ color: "#FFFFFF" }} />
-            <h3>Vercel</h3>
-          </div>
-          <div className="skill-card">
-            <SiRender className="skill-icon" style={{ color: "#46E3B7" }} />
-            <h3>Render</h3>
-          </div>
-          <div className="skill-card">
-            <SiNetlify className="skill-icon" style={{ color: "#00C7B7" }} />
-            <h3>Netlify</h3>
-          </div>
-        </div>
-      </section>
+    <div className="skill-card">
+      <FaReact className="skill-icon" style={{ color: "#61DAFB" }} />
+      <h3>React.js</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiNextdotjs className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <h3>Next.js</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiTailwindcss className="skill-icon" style={{ color: "#06B6D4" }} />
+      <h3>Tailwind CSS</h3>
+    </div>
+
+    <div className="skill-card">
+      <FaBootstrap className="skill-icon" style={{ color: "#7952B3" }} />
+      <h3>Bootstrap</h3>
+    </div>
+  </div>
+
+  {/* Backend & Databases */}
+  <h3 className="skills-category">Backend & Databases</h3>
+  <div className="card-grid">
+    <div className="skill-card">
+      <FaNodeJs className="skill-icon" style={{ color: "#339933" }} />
+      <h3>Node.js</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiExpress className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <h3>Express.js</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiMysql className="skill-icon" style={{ color: "#4479A1" }} />
+      <h3>MySQL</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiPostgresql className="skill-icon" style={{ color: "#336791" }} />
+      <h3>PostgreSQL</h3>
+    </div>
+  </div>
+
+  {/* Programming Languages */}
+  <h3 className="skills-category">Programming Languages</h3>
+  <div className="card-grid">
+    <div className="skill-card">
+      <FaJs className="skill-icon" style={{ color: "#F7DF1E" }} />
+      <h3>JavaScript</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiTypescript className="skill-icon" style={{ color: "#3178C6" }} />
+      <h3>TypeScript</h3>
+    </div>
+
+    <div className="skill-card">
+      <FaPython className="skill-icon" style={{ color: "#3776AB" }} />
+      <h3>Python</h3>
+    </div>
+  </div>
+
+  {/* Machine Learning */}
+  <h3 className="skills-category">Machine Learning</h3>
+  <div className="card-grid">
+    <div className="skill-card">
+      <SiHuggingface className="skill-icon" style={{ color: "#FFD21E" }} />
+      <h3>NLP</h3>
+    </div>
+  </div>
+
+  {/* Tools */}
+  <h3 className="skills-category">Tools</h3>
+  <div className="card-grid">
+    <div className="skill-card">
+      <FaGit className="skill-icon" style={{ color: "#F05032" }} />
+      <h3>Git</h3>
+    </div>
+
+    <div className="skill-card">
+      <FaGithub className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <h3>GitHub</h3>
+    </div>
+  </div>
+
+  {/* Hosting & Deployment */}
+  <h3 className="skills-category">Hosting & Deployment</h3>
+  <div className="card-grid">
+    <div className="skill-card">
+      <SiVercel className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <h3>Vercel</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiRender className="skill-icon" style={{ color: "#46E3B7" }} />
+      <h3>Render</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiNetlify className="skill-icon" style={{ color: "#00C7B7" }} />
+      <h3>Netlify</h3>
+    </div>
+  </div>
+</motion.section>
+    
+      
 
       {/* Projects Section */}
-      <section id="projects" className="projects-section">
+     <motion.section
+  id="projects"
+  className="projects-section"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.2 }}
+>
         <h2 className="section-title">Projects</h2>
         <Marquee speed={50} pauseOnHover={true} gradient={false}>
           {/* Project 1 */}
@@ -480,233 +585,252 @@ const loadComments = async () => {
             </div>
           </div>
         </Marquee>
-      </section>
+      </motion.section>
 
-      <section id="contact" className="contact-section">
-        <h2 className="section-title">Contact Me</h2>
-        <p className="contact-subtitle">
-          Have something in mind? Send a message and let's connect.
-        </p>
+<motion.section
+  id="contact"
+  className="contact-section"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.2 }}
+>
+  <h2 className="section-title">Contact Me</h2>
+  <p className="contact-subtitle">
+    Have something in mind? Send a message and let's connect.
+  </p>
 
-        <div className="contact-container">
-          {/* LEFT SIDE */}
-          <div className="contact-form">
-            <div className="input-box">
-              <FaUser className="input-icon" />
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
+  <div className="contact-container">
+    {/* LEFT SIDE */}
+    <div className="contact-form">
+      <div className="input-box">
+        <FaUser className="input-icon" />
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
 
-            <div className="input-box">
-              <FaEnvelope className="input-icon" />
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+      <div className="input-box">
+        <FaEnvelope className="input-icon" />
+        <input
+          type="email"
+          placeholder="Your Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
 
-            <div className="input-box textarea-box">
-              <FaCommentDots className="input-icon textarea-icon" />
-              <textarea
-                placeholder="Your Message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              ></textarea>
-            </div>
+      <div className="input-box textarea-box">
+        <FaCommentDots className="input-icon" />
+        <textarea
+          placeholder="Your Message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        ></textarea>
+      </div>
 
-            <button className="btn" onClick={handleSubmit}>
-              Send Message
-            </button>
-          </div>
+      <button className="btn" onClick={handleSubmit}>
+        Send Message
+      </button>
+    </div>
 
-          {/* RIGHT SIDE */}
-          <div className="contact-comments">
-            <h3 className="comments-title">Comments</h3>
-            <p className="comment-caption">Leave your thoughts here</p>
+    {/* RIGHT SIDE */}
+    <div className="contact-comments">
+      <h3 className="comments-title">Comments</h3>
+      <p className="comment-caption">Leave your thoughts here</p>
 
-            <div className="input-box textarea-box comment-input">
-              <FaCommentDots className="input-icon" />
-              <textarea
-                placeholder="Write your comment..."
-                rows={4}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              ></textarea>
-            </div>
+      <div className="input-box textarea-box comment-input">
+        <FaCommentDots className="input-icon" />
+        <textarea
+          placeholder="Write your comment..."
+          rows={4}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        ></textarea>
+      </div>
 
-            <button className="btn" onClick={handlePost}>
-              Post Comment
-            </button>
-          </div>
+      <button className="btn" onClick={handlePost}>
+        Post Comment
+      </button>
+    </div>
 
-          {/* SEPARATE COMMENTS TABLE */}
-          <div className="comments-table-section">
-            <h4>All Comments</h4>
-            <div className="comments-table">
-              {comments.length === 0 ? (
-                <p className="no-comments">No comments yet. Be the first to comment!</p>
-              ) : (
-                comments.map((c) => (
-                  <div key={c.id} className="comment-row">
-                    {/* COMMENT HEADER */}
-                    <div className="comment-header">
-                      <div className="comment-avatar">
-                        {c.text?.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <div className="comment-user">Anonymous</div>
-                        <div className="comment-time">
-                          {c.time ? new Date(c.time).toLocaleString() : "Just now"}
+    {/* SEPARATE COMMENTS TABLE */}
+    <div className="comments-table-section">
+      <h4>All Comments</h4>
+      <div className="comments-table">
+        {comments.length === 0 ? (
+          <p className="no-comments">No comments yet. Be the first to comment!</p>
+        ) : (
+          comments.map((c) => (
+            <div key={c.id} className="comment-row">
+              {/* COMMENT HEADER */}
+              <div className="comment-header">
+                <div className="comment-avatar">
+                  {c.text?.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="comment-user">Anonymous</div>
+                  <div className="comment-time">
+                    {c.time ? new Date(c.time).toLocaleString() : "Just now"}
+                  </div>
+                </div>
+              </div>
+
+              {/* COMMENT TEXT */}
+              <div className="comment-text">
+                {editId === c.id ? (
+                  <textarea
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                    className="inline-edit"
+                  />
+                ) : (
+                  c.text
+                )}
+              </div>
+
+              {/* ACTIONS */}
+              <div className="comment-actions">
+                {editId === c.id ? (
+                  <>
+                    <button
+                      className="save-btn"
+                      onClick={() => handleSaveCommentEdit(c.id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="cancel-btn"
+                      onClick={() => {
+                        setEditId(null);
+                        setEditText("");
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="reply-btn"
+                      onClick={() =>
+                        setReplyingTo({ id: c.id, replies: c.replies || [] })
+                      }
+                    >
+                      Reply
+                    </button>
+                    {c.ownerId === userId && (
+                      <>
+                        <button
+                          className="edit-btn"
+                          onClick={() => {
+                            setEditId(c.id);
+                            setEditText(c.text);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDelete(c.id)}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {/* REPLIES LIST */}
+              {c.replies?.length > 0 && (
+                <div className="replies-container">
+                  {c.replies.map((reply) => (
+                    <div key={reply.id} className="reply-row">
+                      <div className="comment-header">
+                        <div className="comment-avatar">R</div>
+                        <div>
+                          <div className="comment-user">Anonymous</div>
+                          <div className="comment-time">Reply</div>
                         </div>
                       </div>
-                    </div>
-
-                    {/* COMMENT TEXT */}
-                    <div className="comment-text">
-                      {editId === c.id ? (
-                        <textarea
-                          value={editText}
-                          onChange={(e) => setEditText(e.target.value)}
-                          className="inline-edit"
-                        />
-                      ) : (
-                        c.text
-                      )}
-                    </div>
-
-                    {/* ACTIONS */}
-                    <div className="comment-actions">
-                      {editId === c.id ? (
-                        <>
-                          <button className="save-btn" onClick={() => handleSaveCommentEdit(c.id)}>
-                            Save
-                          </button>
-                          <button className="cancel-btn" onClick={() => { setEditId(null); setEditText(""); }}>
-                            Cancel
-                          </button>
-                        </>
-                      ) : (
-                        <>
+                      <div className="reply-text">{reply.text}</div>
+                      {reply.ownerId === userId && (
+                        <div className="comment-actions">
                           <button
-                            className="reply-btn"
-                            onClick={() => setReplyingTo({ id: c.id, replies: c.replies || [] })}
+                            className="edit-btn"
+                            onClick={() =>
+                              handleEditReply(c.id, reply.id, c.replies)
+                            }
                           >
-                            Reply
+                            Edit
                           </button>
-                          {c.ownerId === userId && (
-                            <>
-                              <button
-                                className="edit-btn"
-                                onClick={() => {
-                                  setEditId(c.id);
-                                  setEditText(c.text);
-                                }}
-                              >
-                                Edit
-                              </button>
-                              <button className="delete-btn" onClick={() => handleDelete(c.id)}>
-                                Delete
-                              </button>
-                            </>
-                          )}
-                        </>
+                          <button
+                            className="delete-btn"
+                            onClick={() =>
+                              handleDeleteReply(c.id, reply.id, c.replies)
+                            }
+                          >
+                            Delete
+                          </button>
+                        </div>
                       )}
                     </div>
-
-                    
-
-                    {/* REPLIES LIST */}
-                    {c.replies?.length > 0 && (
-                      <div className="replies-container">
-                        {c.replies.map((reply) => (
-                          <div key={reply.id} className="reply-row">
-                            <div className="comment-header">
-                              <div className="comment-avatar">R</div>
-                              <div>
-                                <div className="comment-user">Anonymous</div>
-                                <div className="comment-time">Reply</div>
-                              </div>
-                            </div>
-                            <div className="reply-text">{reply.text}</div>
-                          {reply.ownerId === userId && (
-                                  <div className="comment-actions">
-                                    <button
-                                      className="edit-btn"
-                                      onClick={() =>
-                                        handleEditReply(c.id, reply.id, c.replies)
-                                      }
-                                    >
-                                      Edit
-                                    </button>
-
-                                    <button
-                                      className="delete-btn"
-                                      onClick={() =>
-                                        handleDeleteReply(c.id, reply.id, c.replies)
-                                      }
-                                    >
-                                      Delete
-                                    </button>
-                                  </div>
-                                )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
-          </div>
-          {replyingTo && (
-  <div
-    className="modal-overlay"
-    onClick={() => {
-      setReplyingTo(null);
-      setReplyText("");
-    }}
-  >
-    <div
-      className="modal-box"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <h3 className="modal-title">Write a Reply</h3>
-
-      <textarea
-        className="modal-textarea"
-        value={replyText || ""}
-        onChange={(e) => setReplyText(e.target.value)}
-        placeholder="Type your reply..."
-      />
-
-      <div className="modal-actions">
-        <button
-          onClick={() => handleReply(replyingTo?.id)}
-          disabled={!replyText.trim()}
-        >
-          Send
-        </button>
-
-        <button
-          onClick={() => {
-            setReplyingTo(null);
-            setReplyText("");
-          }}
-        >
-          Cancel
-        </button>
+          ))
+        )}
       </div>
     </div>
-  </div>
-)}
+
+    {/* REPLY MODAL */}
+    {replyingTo && (
+      <div
+        className="modal-overlay"
+        onClick={() => {
+          setReplyingTo(null);
+          setReplyText("");
+        }}
+      >
+        <div
+          className="modal-box"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <h3 className="modal-title">Write a Reply</h3>
+
+          <textarea
+            className="modal-textarea"
+            value={replyText || ""}
+            onChange={(e) => setReplyText(e.target.value)}
+            placeholder="Type your reply..."
+          />
+
+          <div className="modal-actions">
+            <button
+              onClick={() => handleReply(replyingTo?.id)}
+              disabled={!replyText.trim()}
+            >
+              Send
+            </button>
+            <button
+              onClick={() => {
+                setReplyingTo(null);
+                setReplyText("");
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </section>
+      </div>
+    )}
+  </div>
+  </motion.section>
 
       <footer>
         © 2026 Arvie L. Galiza. All Rights Reserved.
