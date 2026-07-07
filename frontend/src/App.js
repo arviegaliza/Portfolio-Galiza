@@ -316,6 +316,7 @@ const loadComments = async () => {
         <div className="nav-links">
           <a href="#about">About</a>
           <a href="#skills">Skills</a>
+          <a href="#work experience">Work Experience</a>
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
         </div>
@@ -523,6 +524,34 @@ const loadComments = async () => {
     <div className="skill-card">
       <SiNetlify className="skill-icon" style={{ color: "#00C7B7" }} />
       <h3>Netlify</h3>
+    </div>
+  </div>
+</motion.section>
+
+{/* Work Experience Section */}
+<motion.section
+  id="experience"
+  className="experience-section"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.2 }}
+>
+  <h2 className="section-title">Work Experience</h2>
+
+  <div className="experience-card">
+    <div className="experience-content">
+      <span className="experience-year">2025 – 2026</span>
+
+      <h3>Web Developer Intern</h3>
+      <h4>Schools Division of Ilocos Norte (SDOIN)</h4>
+
+      <ul className="experience-list">
+        <li> Developed a full-stack Scheduling System using React.js, Node.js, and PostgreSQL, streamlining meeting management and improving scheduling efficiency.</li>
+        <li> Implemented conflict detection and validation features to prevent overlapping bookings, ensuring accurate and reliable schedule management.</li>
+        <li> Designed and integrated an automated reminder notification system to improve user awareness and reduce missed meetings.</li>
+        <li>Collaborated with the development team to build, test, and maintain web application features while resolving bugs and improving system performance.</li>
+      </ul>
     </div>
   </div>
 </motion.section>
@@ -832,9 +861,19 @@ const loadComments = async () => {
   </div>
   </motion.section>
 
-      <footer>
-        © 2026 Arvie L. Galiza. All Rights Reserved.
-      </footer>
+    <footer className="footer">
+  <div className="footer-left">
+    <h3>Arvie Lampitoc Galiza</h3>
+  </div>
+
+  <div className="footer-center">
+    © 2026 Arvie L. Galiza. All Rights Reserved.
+  </div>
+
+  <div className="footer-right">
+    <p>Web Developer & Software Engineer</p>
+  </div>
+</footer>
     </>
   );
 }
