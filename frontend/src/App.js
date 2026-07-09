@@ -80,7 +80,7 @@ const fadeLeft = {
   const [replyingTo, setReplyingTo] = useState(null);
   const userId = "anonymous";
 
-
+const [menuOpen, setMenuOpen] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
 
@@ -311,17 +311,48 @@ const loadComments = async () => {
           {toast.message}
         </div>
       )}
-      <nav className={`navbar ${showNav ? "show" : "hide"}`}>
-        <div className="logo">Rv.Dev</div>
-        <div className="nav-links">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#work experience">Work Experience</a>
-          <a href="#projects">Projects</a>
-             <a href="#education">Education</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
+     <nav className={`navbar ${showNav ? "show" : "hide"}`}>
+  <div className="logo">
+    Rv.Dev
+  </div>
+
+
+  {/* Hamburger */}
+  <button 
+    className="hamburger"
+    onClick={() => setMenuOpen(!menuOpen)}
+  >
+    ☰
+  </button>
+
+
+  <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+    <a href="#about" onClick={() => setMenuOpen(false)}>
+      About
+    </a>
+
+    <a href="#skills" onClick={() => setMenuOpen(false)}>
+      Skills
+    </a>
+
+    <a href="#work-experience" onClick={() => setMenuOpen(false)}>
+      Work Experience
+    </a>
+
+    <a href="#projects" onClick={() => setMenuOpen(false)}>
+      Projects
+    </a>
+
+    <a href="#education" onClick={() => setMenuOpen(false)}>
+      Education
+    </a>
+
+    <a href="#contact" onClick={() => setMenuOpen(false)}>
+      Contact
+    </a>
+  </div>
+
+</nav>
           <motion.section
   className="hero"
   id="about"

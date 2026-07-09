@@ -1354,6 +1354,55 @@ padding: 1000;
   }
 }
 
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .hamburger {
+    display: block;
+  }
+
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+
+    width: 220px;
+
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 25px;
+
+    background: rgba(15,23,42,0.95);
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+  }
+
+
+  .nav-links.active {
+    display: flex;
+  }
+
+
+  .nav-links a {
+    margin: 0;
+    text-align: center;
+  }
+
+}
+
 /* ===========================
    Work Experience Section
 =========================== */
