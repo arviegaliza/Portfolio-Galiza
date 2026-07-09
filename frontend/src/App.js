@@ -318,6 +318,7 @@ const loadComments = async () => {
           <a href="#skills">Skills</a>
           <a href="#work experience">Work Experience</a>
           <a href="#projects">Projects</a>
+             <a href="#education">Education</a>
           <a href="#contact">Contact</a>
         </div>
       </nav>
@@ -530,7 +531,7 @@ const loadComments = async () => {
 
 {/* Work Experience Section */}
 <motion.section
-  id="experience"
+  id="work experience"
   className="experience-section"
   variants={fadeUp}
   initial="hidden"
@@ -538,7 +539,6 @@ const loadComments = async () => {
   viewport={{ once: false, amount: 0.2 }}
 >
   <h2 className="section-title">Work Experience</h2>
-
   <div className="experience-card">
     <div className="experience-content">
       <span className="experience-year">2025 – 2026</span>
@@ -558,14 +558,14 @@ const loadComments = async () => {
     
       
 
-      {/* Projects Section */}
-     <motion.section
-  id="projects"
-  className="projects-section"
-  variants={fadeUp}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: false, amount: 0.2 }}
+                {/* Projects Section */}
+              <motion.section
+            id="projects"
+            className="projects-section"
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.2 }}
 >
         <h2 className="section-title">Projects</h2>
         <Marquee speed={50} pauseOnHover={true} gradient={false}>
@@ -615,6 +615,93 @@ const loadComments = async () => {
           </div>
         </Marquee>
       </motion.section>
+      {/* Education Section */}
+<motion.section
+  id="education"
+  className="education-section"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.2 }}
+>
+  <h2 className="section-title">Education</h2>
+
+  <div className="education-grid">
+
+    {/* College */}
+    <motion.div
+      className="education-card"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="education-header">
+        <span className="education-year">2022 – 2026</span>
+      </div>
+
+      <h3>Bachelor of Science in Computer Science</h3>
+      <h4>Mariano Marcos State University – Main Campus</h4>
+
+      <div className="education-footer">
+        <span className="education-badge">Graduated</span>
+      </div>
+    </motion.div>
+
+    {/* Senior High */}
+    <motion.div
+      className="education-card"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="education-header">
+        <span className="education-year">2020 – 2022</span>
+      </div>
+
+      <h3>Senior High School</h3>
+      <h4>Banna National High School</h4>
+
+      <div className="education-footer">
+        <span className="education-badge">Graduated</span>
+      </div>
+    </motion.div>
+
+    {/* Junior High */}
+    <motion.div
+      className="education-card"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="education-header">
+        <span className="education-year">2016 – 2020</span>
+      </div>
+
+      <h3>Junior High School</h3>
+      <h4>Banna National High School</h4>
+
+      <div className="education-footer">
+        <span className="education-badge">Graduated</span>
+      </div>
+    </motion.div>
+
+    {/* Elementary */}
+    <motion.div
+      className="education-card"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="education-header">
+        <span className="education-year">2010 – 2016</span>
+      </div>
+
+      <h3>Elementary</h3>
+      <h4>Banna Elementary School</h4>
+
+      <div className="education-footer">
+        <span className="education-badge">Graduated</span>
+      </div>
+    </motion.div>
+
+  </div>
+</motion.section>
 
 <motion.section
   id="contact"
