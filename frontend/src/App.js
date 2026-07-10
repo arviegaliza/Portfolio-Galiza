@@ -430,9 +430,9 @@ const loadComments = async () => {
   </a>
 </motion.div>
 
-    
-    <motion.section
+  <motion.section
   id="skills"
+  className="skills-section"
   variants={fadeUp}
   initial="hidden"
   whileInView="visible"
@@ -440,9 +440,8 @@ const loadComments = async () => {
 >
   <h2 className="section-title">Skills</h2>
 
-  {/* Frontend */}
-  <h3 className="skills-category">Frontend</h3>
-  <div className="card-grid">
+  {/* Row 1 */}
+  <Marquee speed={45} pauseOnHover gradient={false}>
     <div className="skill-card">
       <FaHtml5 className="skill-icon" style={{ color: "#E34F26" }} />
       <h3>HTML5</h3>
@@ -454,12 +453,22 @@ const loadComments = async () => {
     </div>
 
     <div className="skill-card">
+      <FaJs className="skill-icon" style={{ color: "#F7DF1E" }} />
+      <h3>JavaScript</h3>
+    </div>
+
+    <div className="skill-card">
+      <SiTypescript className="skill-icon" style={{ color: "#3178C6" }} />
+      <h3>TypeScript</h3>
+    </div>
+
+    <div className="skill-card">
       <FaReact className="skill-icon" style={{ color: "#61DAFB" }} />
       <h3>React.js</h3>
     </div>
 
     <div className="skill-card">
-      <SiNextdotjs className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <SiNextdotjs className="skill-icon" style={{ color: "#fff" }} />
       <h3>Next.js</h3>
     </div>
 
@@ -472,21 +481,28 @@ const loadComments = async () => {
       <FaBootstrap className="skill-icon" style={{ color: "#7952B3" }} />
       <h3>Bootstrap</h3>
     </div>
-  </div>
 
-  {/* Backend & Databases */}
-  <h3 className="skills-category">Backend & Databases</h3>
-  <div className="card-grid">
     <div className="skill-card">
       <FaNodeJs className="skill-icon" style={{ color: "#339933" }} />
       <h3>Node.js</h3>
     </div>
 
     <div className="skill-card">
-      <SiExpress className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <SiExpress className="skill-icon" style={{ color: "#fff" }} />
       <h3>Express.js</h3>
     </div>
+  </Marquee>
 
+  {/* Space between rows */}
+  <div style={{ height: "25px" }}></div>
+
+  {/* Row 2 */}
+  <Marquee
+    speed={45}
+    direction="right"
+    pauseOnHover
+    gradient={false}
+  >
     <div className="skill-card">
       <SiMysql className="skill-icon" style={{ color: "#4479A1" }} />
       <h3>MySQL</h3>
@@ -496,55 +512,29 @@ const loadComments = async () => {
       <SiPostgresql className="skill-icon" style={{ color: "#336791" }} />
       <h3>PostgreSQL</h3>
     </div>
-  </div>
-
-  {/* Programming Languages */}
-  <h3 className="skills-category">Programming Languages</h3>
-  <div className="card-grid">
-    <div className="skill-card">
-      <FaJs className="skill-icon" style={{ color: "#F7DF1E" }} />
-      <h3>JavaScript</h3>
-    </div>
-
-    <div className="skill-card">
-      <SiTypescript className="skill-icon" style={{ color: "#3178C6" }} />
-      <h3>TypeScript</h3>
-    </div>
 
     <div className="skill-card">
       <FaPython className="skill-icon" style={{ color: "#3776AB" }} />
       <h3>Python</h3>
     </div>
-  </div>
 
-  {/* Machine Learning */}
-  <h3 className="skills-category">Machine Learning</h3>
-  <div className="card-grid">
     <div className="skill-card">
       <SiHuggingface className="skill-icon" style={{ color: "#FFD21E" }} />
       <h3>NLP</h3>
     </div>
-  </div>
 
-  {/* Tools */}
-  <h3 className="skills-category">Tools</h3>
-  <div className="card-grid">
     <div className="skill-card">
       <FaGit className="skill-icon" style={{ color: "#F05032" }} />
       <h3>Git</h3>
     </div>
 
     <div className="skill-card">
-      <FaGithub className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <FaGithub className="skill-icon" style={{ color: "#fff" }} />
       <h3>GitHub</h3>
     </div>
-  </div>
 
-  {/* Hosting & Deployment */}
-  <h3 className="skills-category">Hosting & Deployment</h3>
-  <div className="card-grid">
     <div className="skill-card">
-      <SiVercel className="skill-icon" style={{ color: "#FFFFFF" }} />
+      <SiVercel className="skill-icon" style={{ color: "#fff" }} />
       <h3>Vercel</h3>
     </div>
 
@@ -557,7 +547,7 @@ const loadComments = async () => {
       <SiNetlify className="skill-icon" style={{ color: "#00C7B7" }} />
       <h3>Netlify</h3>
     </div>
-  </div>
+  </Marquee>
 </motion.section>
 
 {/* Work Experience Section */}

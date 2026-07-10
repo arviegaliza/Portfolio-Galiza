@@ -278,38 +278,36 @@ section {
   margin-top: 25px;
 }
 
-/* SKILL CARD */
 .skill-card {
-  width: 110px;
-  height: 110px;
-
+  width: 220px;
+  height: 220px;
+  margin: 0 15px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  padding: 12px;
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  backdrop-filter: blur(12px);
-
-
-  text-align: center;
-  transition: all 0.25s ease;
-
-  cursor: pointer;
+  align-items: center;
+  transition: all 0.35s ease;
 }
 
-
-/* HOVER EFFECT */
 .skill-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 140, 0, 0.6);
-  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.15);
+  transform: translateY(-10px);
+  border-color: #f97316;
+  box-shadow: 0 12px 30px rgba(249, 115, 22, 0.3);
+}
+
+.skill-icon {
+  font-size: 72px;
+  margin-bottom: 18px;
+}
+
+.skill-card h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
 }
 
 /* ICON INSIDE CARD (if you have icons) */
