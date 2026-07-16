@@ -1,7 +1,9 @@
 const pool = require("../db");
 
-const result = await pool.query(`
-SELECT 
+const getComments = async (req, res) => {
+  try {
+    const result = await pool.query(`
+   SELECT 
   comments.id,
   comments.name,
   comments.comment,
@@ -24,7 +26,14 @@ GROUP BY comments.id
 ORDER BY comments.created_at DESC
 `);
 
-res.json(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to fetch comments",
+    });
+  }
+};
 
 const createComment = async (req, res) => {
   try {

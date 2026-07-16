@@ -8,14 +8,21 @@ const {
   deleteComment,
 } = require("../controllers/commentController");
 
-const { createReply } = require("../controllers/replyController");
+const {
+  createReply,
+  updateReply,
+  deleteReply,
+} = require("../controllers/replyController");
 
+// COMMENTS
 router.get("/", getComments);
 router.post("/", createComment);
 router.put("/:id", updateComment);
 router.delete("/:id", deleteComment);
 
-// Reply route
-router.post("/:id/reply", createReply);
+// REPLIES
+router.post("/:commentId/reply", createReply);
+router.put("/reply/:id", updateReply);
+router.delete("/reply/:id", deleteReply);
 
 module.exports = router;
