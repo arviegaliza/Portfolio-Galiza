@@ -247,7 +247,7 @@ function App() {
   // ---------------- DELETE REPLY ----------------
   const handleDeleteReply = async (replyId) => {
     try {
-      const res = await fetch(`${API_URL}/${replyId}`, {
+      const res = await fetch(`${API_URL}/reply/${replyId}`, {
         method: "DELETE",
       });
 
