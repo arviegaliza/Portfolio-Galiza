@@ -7,11 +7,12 @@ const pool = require("./db");
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://portfolio-galiza.vercel.app/"],
+    origin: "https://portfolio-galiza.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   }),
 );
 
