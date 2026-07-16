@@ -185,7 +185,10 @@ function App() {
 
   const handleReply = async (commentId) => {
     try {
-      await fetch(
+      console.log("Sending reply to:", commentId);
+      console.log("Reply text:", replyText);
+
+      const res = await fetch(
         `https://portfolio-galiza.onrender.com/api/comments/${commentId}/reply`,
         {
           method: "POST",
@@ -194,15 +197,28 @@ function App() {
           },
           body: JSON.stringify({
             text: replyText,
-            ownerId: userId,
+            ownerId: userId || "anonymous",
           }),
         },
       );
 
-      // IMPORTANT
+      const data = await res.json();
+      console.log("Reply response:", data);
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send reply");
+      }
+
+      // Clear input
+      setReplyText("");
+
+      // Close reply box
+      setReplyingTo(null);
+
+      // Refresh comments with replies
       loadComments();
     } catch (error) {
-      console.error(error);
+      console.error("Reply error:", error);
     }
   };
 
