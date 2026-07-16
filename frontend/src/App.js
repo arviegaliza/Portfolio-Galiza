@@ -111,7 +111,7 @@ function App() {
         },
         body: JSON.stringify({
           name: "Anonymous",
-          comment: comment,
+          comment,
         }),
       });
 

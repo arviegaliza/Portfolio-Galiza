@@ -24,7 +24,7 @@ const createComment = async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error("CREATE COMMENT ERROR:", err);
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };
