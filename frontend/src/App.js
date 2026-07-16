@@ -234,11 +234,14 @@ function App() {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
-      });
+      const res = await fetch(
+        "https://portfolio-galiza.onrender.com/api/contact",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        },
+      );
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message);
