@@ -50,44 +50,48 @@ const createComment = async (req, res) => {
   }
 };
 
+// UPDATE COMMENT
 const updateComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { text } = req.body;
+    const { comment } = req.body;
 
     const result = await pool.query(
-      "UPDATE comments SET text=$1 WHERE id=$2 RETURNING *",
-      [text, id],
+      `UPDATE comments
+       SET comment=$1
+       WHERE id=$2
+       RETURNING *`,
+      [comment, id],
     );
 
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };
 
+// DELETE COMMENT
 const deleteComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { ownerId } = req.body;
 
-    const result = await pool.query(
+    await pool.query(
       `DELETE FROM comments
-       WHERE id=$1 AND owner_id=$2
-       RETURNING *`,
-      [id, ownerId],
+       WHERE id=$1`,
+      [id],
     );
 
-    if (result.rows.length === 0) {
-      return res.status(403).json({
-        error: "You cannot delete this comment",
-      });
-    }
-
-    res.json({ message: "Deleted" });
+    res.json({
+      message: "Comment deleted successfully",
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };
 
