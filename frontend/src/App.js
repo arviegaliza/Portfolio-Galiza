@@ -1,6 +1,6 @@
 import "./App.css";
 import { TypeAnimation } from "react-type-animation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FaUser, FaEnvelope, FaCommentDots } from "react-icons/fa";
 import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
@@ -91,7 +91,7 @@ function App() {
   };
 
   // ---------------- LOAD COMMENTS ----------------
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
@@ -99,7 +99,7 @@ function App() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [API_URL]);
   const handlePost = async () => {
     if (!comment.trim()) return;
 
