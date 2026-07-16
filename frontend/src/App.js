@@ -110,7 +110,7 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: "Anonymous",
+          name,
           comment,
         }),
       });
@@ -801,14 +801,14 @@ function App() {
                     {/* COMMENT HEADER */}
                     <div className="comment-header">
                       <div className="comment-avatar">
-                        {c.text?.charAt(0).toUpperCase()}
+                        {c.name?.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <div className="comment-user">Anonymous</div>
+                        <div className="comment-user">{c.name}</div>
                         <div className="comment-time">
-                          {c.time
-                            ? new Date(c.time).toLocaleString()
-                            : "Just now"}
+                          {c.created_at
+                            ? new Date(c.created_at).toLocaleString()
+                            : "Just now"}{" "}
                         </div>
                       </div>
                     </div>
@@ -822,7 +822,7 @@ function App() {
                           className="inline-edit"
                         />
                       ) : (
-                        c.text
+                        c.comment
                       )}
                     </div>
 
@@ -865,11 +865,12 @@ function App() {
                                 className="edit-btn"
                                 onClick={() => {
                                   setEditId(c.id);
-                                  setEditText(c.text);
+                                  setEditText(c.comment);
                                 }}
                               >
                                 Edit
                               </button>
+
                               <button
                                 className="delete-btn"
                                 onClick={() => handleDelete(c.id)}
