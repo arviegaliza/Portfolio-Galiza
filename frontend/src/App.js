@@ -176,32 +176,23 @@ function App() {
   };
 
   const handleReply = async (commentId) => {
-    console.log("Sending reply to:", commentId);
-
-    if (!commentId) {
-      console.error("Comment ID is missing");
-      return;
-    }
-
     try {
-      const res = await fetch(`${API_URL}/${commentId}/reply`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      await fetch(
+        `https://portfolio-galiza.onrender.com/api/comments/${commentId}/reply`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: replyText,
+            ownerId: userId,
+          }),
         },
-        body: JSON.stringify({
-          text: replyText,
-          ownerId: userId || "anonymous",
-        }),
-      });
+      );
 
-      if (!res.ok) {
-        throw new Error("Reply failed");
-      }
-
-      setReplyText("");
-      setReplyingTo(null);
-      loadComments();
+      // IMPORTANT
+      fetchComments();
     } catch (error) {
       console.error(error);
     }
