@@ -175,19 +175,29 @@ function App() {
     }
   };
 
-  // ---------------- REPLY ----------------
   const handleReply = async (commentId) => {
+    console.log("Sending reply to:", commentId);
+
+    if (!commentId) {
+      console.error("Comment ID is missing");
+      return;
+    }
+
     try {
       const res = await fetch(`${API_URL}/${commentId}/reply`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           text: replyText,
           ownerId: userId || "anonymous",
         }),
       });
 
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        throw new Error("Reply failed");
+      }
 
       setReplyText("");
       setReplyingTo(null);
