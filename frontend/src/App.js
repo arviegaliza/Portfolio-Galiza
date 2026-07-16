@@ -223,15 +223,19 @@ function App() {
   };
 
   // ---------------- EDIT REPLY ----------------
-  const handleEditReply = async (commentId, replyId) => {
+  const handleEditReply = async (replyId) => {
     const newText = prompt("Edit reply:");
     if (!newText?.trim()) return;
 
     try {
-      const res = await fetch(`${API_URL}/${commentId}/reply/${replyId}`, {
+      const res = await fetch(`${API_URL}/reply/${replyId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: newText }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: newText,
+        }),
       });
 
       if (!res.ok) throw new Error();
@@ -983,9 +987,7 @@ function App() {
                               <div className="comment-actions">
                                 <button
                                   className="edit-btn"
-                                  onClick={() =>
-                                    handleEditReply(c.id, reply.id, c.replies)
-                                  }
+                                  onClick={() => handleEditReply(reply.id)}
                                 >
                                   Edit
                                 </button>
