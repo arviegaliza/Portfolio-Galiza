@@ -28,7 +28,7 @@ const createContact = async (req, res) => {
     // Save to PostgreSQL
     const result = await pool.query(
       "INSERT INTO contacts (name, email, message) VALUES ($1, $2, $3) RETURNING *",
-      [name, cleanEmail, message]
+      [name, cleanEmail, message],
     );
 
     // Send email notification
@@ -57,7 +57,6 @@ const createContact = async (req, res) => {
       message: "Message sent successfully.",
       contact: result.rows[0],
     });
-
   } catch (err) {
     console.error("Contact Error:", err);
 
@@ -72,12 +71,9 @@ const createContact = async (req, res) => {
 // ================= GET CONTACTS =================
 const getContacts = async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM contacts ORDER BY id DESC"
-    );
+    const result = await pool.query("SELECT * FROM contacts ORDER BY id DESC");
 
     return res.status(200).json(result.rows);
-
   } catch (err) {
     console.error("Get Contacts Error:", err);
 

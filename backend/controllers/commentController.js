@@ -3,9 +3,7 @@ const pool = require("../db");
 // GET COMMENTS
 const getComments = async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM comments ORDER BY id DESC"
-    );
+    const result = await pool.query("SELECT * FROM comments ORDER BY id DESC");
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -21,7 +19,7 @@ const createComment = async (req, res) => {
       `INSERT INTO comments (text, owner_id, time)
        VALUES ($1, $2, $3)
        RETURNING *`,
-      [text, ownerId, Date.now()]
+      [text, ownerId, Date.now()],
     );
 
     res.status(201).json(result.rows[0]);
@@ -38,7 +36,7 @@ const updateComment = async (req, res) => {
 
     const result = await pool.query(
       "UPDATE comments SET text=$1 WHERE id=$2 RETURNING *",
-      [text, id]
+      [text, id],
     );
 
     res.json(result.rows[0]);

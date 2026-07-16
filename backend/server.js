@@ -7,14 +7,13 @@ const pool = require("./db");
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://portfoliorvqwry.netlify.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://portfoliorvqwry.netlify.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.use(express.json());
 
