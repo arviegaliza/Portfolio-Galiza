@@ -261,11 +261,11 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Navbar hide/show on scroll & Load comments once
   useEffect(() => {
     loadComments();
 
     let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
       if (window.scrollY > lastScrollY && window.scrollY > 100) {
         setShowNav(false);
@@ -276,10 +276,11 @@ function App() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [loadComments]);
 
   if (loading) {
     return (
