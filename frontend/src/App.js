@@ -786,12 +786,13 @@ function App() {
 
             <div className="input-box textarea-box comment-input">
               <FaCommentDots className="input-icon" />
+
               <textarea
                 placeholder="Write your comment..."
                 rows={4}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-              ></textarea>
+              />
             </div>
 
             <button className="btn" onClick={handlePost}>
@@ -799,9 +800,10 @@ function App() {
             </button>
           </div>
 
-          {/* SEPARATE COMMENTS TABLE */}
+          {/* COMMENTS LIST */}
           <div className="comments-table-section">
             <h4>All Comments</h4>
+
             <div className="comments-table">
               {comments.length === 0 ? (
                 <p className="no-comments">
@@ -813,14 +815,18 @@ function App() {
                     {/* COMMENT HEADER */}
                     <div className="comment-header">
                       <div className="comment-avatar">
-                        {c.name?.charAt(0).toUpperCase()}
+                        {c.name?.charAt(0).toUpperCase() || "A"}
                       </div>
+
                       <div>
-                        <div className="comment-user">{c.name}</div>
+                        <div className="comment-user">
+                          {c.name || "Anonymous"}
+                        </div>
+
                         <div className="comment-time">
                           {c.created_at
                             ? new Date(c.created_at).toLocaleString()
-                            : "Just now"}{" "}
+                            : "Just now"}
                         </div>
                       </div>
                     </div>
@@ -838,7 +844,7 @@ function App() {
                       )}
                     </div>
 
-                    {/* ACTIONS */}
+                    {/* COMMENT ACTIONS */}
                     <div className="comment-actions">
                       {editId === c.id ? (
                         <>
@@ -848,6 +854,7 @@ function App() {
                           >
                             Save
                           </button>
+
                           <button
                             className="cancel-btn"
                             onClick={() => {
@@ -862,15 +869,14 @@ function App() {
                         <>
                           <button
                             className="reply-btn"
-                            onClick={() =>
-                              setReplyingTo({
-                                id: c.id,
-                                replies: c.replies || [],
-                              })
-                            }
+                            onClick={() => {
+                              setReplyingTo(c.id);
+                              setReplyText("");
+                            }}
                           >
                             Reply
                           </button>
+
                           {c.owner_id === getOwnerId() && (
                             <>
                               <button
@@ -895,20 +901,56 @@ function App() {
                       )}
                     </div>
 
-                    {/* REPLIES LIST */}
+                    {/* REPLY INPUT */}
+
+                    {replyingTo === c.id && (
+                      <div className="reply-box">
+                        <textarea
+                          placeholder="Write a reply..."
+                          value={replyText}
+                          onChange={(e) => setReplyText(e.target.value)}
+                        />
+
+                        <button
+                          className="save-btn"
+                          onClick={() => handleReply(c.id)}
+                        >
+                          Send Reply
+                        </button>
+
+                        <button
+                          className="cancel-btn"
+                          onClick={() => {
+                            setReplyingTo(null);
+                            setReplyText("");
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+
+                    {/* REPLIES */}
+
                     {c.replies?.length > 0 && (
                       <div className="replies-container">
                         {c.replies.map((reply) => (
                           <div key={reply.id} className="reply-row">
                             <div className="comment-header">
                               <div className="comment-avatar">R</div>
+
                               <div>
-                                <div className="comment-user">Anonymous</div>
+                                <div className="comment-user">
+                                  {reply.owner_id || "Anonymous"}
+                                </div>
+
                                 <div className="comment-time">Reply</div>
                               </div>
                             </div>
+
                             <div className="reply-text">{reply.text}</div>
-                            {reply.ownerId === userId && (
+
+                            {reply.owner_id === userId && (
                               <div className="comment-actions">
                                 <button
                                   className="edit-btn"
@@ -918,6 +960,7 @@ function App() {
                                 >
                                   Edit
                                 </button>
+
                                 <button
                                   className="delete-btn"
                                   onClick={() =>
