@@ -1,3 +1,5 @@
+const pool = require("../db");
+
 const createReply = async (req, res) => {
   try {
     const { id } = req.params;
@@ -13,8 +15,13 @@ const createReply = async (req, res) => {
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error(err);
+
     res.status(500).json({
       error: err.message,
     });
   }
+};
+
+module.exports = {
+  createReply,
 };
