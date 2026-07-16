@@ -1,8 +1,10 @@
 const pool = require("../db");
 
-// CREATE REPLY
 const createReply = async (req, res) => {
   try {
+    console.log("PARAMS:", req.params);
+    console.log("BODY:", req.body);
+
     const { commentId } = req.params;
     const { text, ownerId } = req.body;
 
@@ -16,7 +18,6 @@ const createReply = async (req, res) => {
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error(err);
-
     res.status(500).json({
       error: err.message,
     });
