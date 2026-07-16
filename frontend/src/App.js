@@ -1016,7 +1016,7 @@ function App() {
 
                 <div className="modal-actions">
                   <button
-                    onClick={() => handleReply(replyingTo?.id)}
+                    onClick={() => handleReply(replyingTo)}
                     disabled={!replyText.trim()}
                   >
                     Send
