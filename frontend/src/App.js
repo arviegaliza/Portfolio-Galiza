@@ -33,7 +33,7 @@ import {
 } from "react-icons/si";
 
 function App() {
-  const API_URL = "http://localhost:5000/api/comments";
+  const API_URL = `${process.env.REACT_APP_API_URL}/comments`;
   const fadeUp = {
     hidden: {
       opacity: 0,
