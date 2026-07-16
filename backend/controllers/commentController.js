@@ -3,28 +3,25 @@ const pool = require("../db");
 const getComments = async (req, res) => {
   try {
     const result = await pool.query(`
-   SELECT 
-  comments.id,
-  comments.name,
-  comments.comment,
-  comments.created_at,
-  COALESCE(
-    json_agg(
-      json_build_object(
-        'id', replies.id,
-        'text', replies.text,
-        'owner_id', replies.owner_id,
-        'created_at', replies.created_at
-      )
-    ) FILTER (WHERE replies.id IS NOT NULL),
-    '[]'
-  ) AS replies
-FROM comments
-LEFT JOIN replies
-ON comments.id = replies.comment_id
-GROUP BY comments.id
-ORDER BY comments.created_at DESC
-`);
+      SELECT 
+        comments.id,
+        comments.name,
+        comments.comment,
+        comments.created_at,
+        json_agg(
+          json_build_object(
+            'id', replies.id,
+            'text', replies.text,
+            'owner_id', replies.owner_id,
+            'created_at', replies.created_at
+          )
+        ) FILTER (WHERE replies.id IS NOT NULL) AS replies
+      FROM comments
+      LEFT JOIN replies
+      ON comments.id = replies.comment_id
+      GROUP BY comments.id
+      ORDER BY comments.created_at DESC
+    `);
 
     res.json(result.rows);
   } catch (error) {
