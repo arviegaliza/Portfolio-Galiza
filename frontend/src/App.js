@@ -994,9 +994,7 @@ function App() {
 
                                 <button
                                   className="delete-btn"
-                                  onClick={() =>
-                                    handleDeleteReply(c.id, reply.id, c.replies)
-                                  }
+                                  onClick={() => handleDeleteReply(reply.id)}
                                 >
                                   Delete
                                 </button>
