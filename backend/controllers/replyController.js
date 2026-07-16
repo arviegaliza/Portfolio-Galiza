@@ -8,6 +8,8 @@ const createReply = async (req, res) => {
     const { commentId } = req.params;
     const { text, ownerId } = req.body;
 
+    console.log("COMMENT ID:", commentId);
+
     const result = await pool.query(
       `INSERT INTO replies (comment_id, text, owner_id)
        VALUES ($1, $2, $3)
@@ -23,7 +25,6 @@ const createReply = async (req, res) => {
     });
   }
 };
-
 // UPDATE REPLY
 const updateReply = async (req, res) => {
   try {
