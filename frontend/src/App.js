@@ -192,7 +192,7 @@ function App() {
       );
 
       // IMPORTANT
-      fetchComments();
+      loadComments();
     } catch (error) {
       console.error(error);
     }
