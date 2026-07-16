@@ -100,6 +100,17 @@ function App() {
       console.error(error);
     }
   }, [API_URL]);
+
+  const getOwnerId = () => {
+    let id = localStorage.getItem("commentOwnerId");
+
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem("commentOwnerId", id);
+    }
+
+    return id;
+  };
   const handlePost = async () => {
     if (!comment.trim()) return;
 
@@ -110,8 +121,9 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
-          comment,
+          name: "Anonymous",
+          comment: comment,
+          ownerId: getOwnerId(),
         }),
       });
 
@@ -859,7 +871,7 @@ function App() {
                           >
                             Reply
                           </button>
-                          {c.ownerId === userId && (
+                          {c.owner_id === getOwnerId() && (
                             <>
                               <button
                                 className="edit-btn"
@@ -873,7 +885,7 @@ function App() {
 
                               <button
                                 className="delete-btn"
-                                onClick={() => handleDelete(c.id)}
+                                onClick={() => handleDelete(c.id, getOwnerId())}
                               >
                                 Delete
                               </button>
