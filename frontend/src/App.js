@@ -880,8 +880,8 @@ function App() {
                           <button
                             className="reply-btn"
                             onClick={() => {
+                              console.log("Selected comment ID:", c.id);
                               setReplyingTo(c.id);
-                              setReplyText("");
                             }}
                           >
                             Reply
@@ -912,7 +912,6 @@ function App() {
                     </div>
 
                     {/* REPLY INPUT */}
-
                     {replyingTo === c.id && (
                       <div className="reply-box">
                         <textarea
@@ -923,10 +922,7 @@ function App() {
 
                         <button
                           className="save-btn"
-                          onClick={() => {
-                            console.log("Clicked comment:", c);
-                            handleReply(c.comment_id);
-                          }}
+                          onClick={() => handleReply(replyingTo)}
                         >
                           Send Reply
                         </button>
