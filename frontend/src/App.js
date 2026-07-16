@@ -925,7 +925,7 @@ function App() {
                           className="save-btn"
                           onClick={() => {
                             console.log("Clicked comment:", c);
-                            handleReply(c.id);
+                            handleReply(c.comment_id);
                           }}
                         >
                           Send Reply
