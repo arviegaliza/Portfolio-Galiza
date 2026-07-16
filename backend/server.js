@@ -9,7 +9,7 @@ const app = express();
 /* ================= MIDDLEWARE ================= */
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://portfoliorvqwry.netlify.app"],
+    origin: ["http://localhost:3000", "https://portfolio-galiza.vercel.app/"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
