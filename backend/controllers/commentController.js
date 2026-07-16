@@ -11,7 +11,8 @@ const getComments = async (req, res) => {
         json_agg(
           json_build_object(
             'id', replies.id,
-            'reply', replies.reply,
+            'text', replies.text,
+            'owner_id', replies.owner_id,
             'created_at', replies.created_at
           )
         ) FILTER (WHERE replies.id IS NOT NULL) AS replies
