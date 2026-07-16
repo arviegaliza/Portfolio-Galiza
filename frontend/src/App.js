@@ -821,7 +821,7 @@ function App() {
                 </p>
               ) : (
                 comments.map((c) => (
-                  <div key={c.id} className="comment-row">
+                  <div key={c.comment_id} className="comment-row">
                     {/* COMMENT HEADER */}
                     <div className="comment-header">
                       <div className="comment-avatar">
@@ -880,7 +880,7 @@ function App() {
                           <button
                             className="reply-btn"
                             onClick={() => {
-                              setReplyingTo(c.id);
+                              setReplyingTo(c.comment_id);
                               setReplyText("");
                             }}
                           >
@@ -923,7 +923,7 @@ function App() {
 
                         <button
                           className="save-btn"
-                          onClick={() => handleReply(c.id)}
+                          onClick={() => handleReply(c.comment_id)}
                         >
                           Send Reply
                         </button>
