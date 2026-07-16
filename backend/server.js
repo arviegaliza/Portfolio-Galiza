@@ -19,6 +19,7 @@ app.use(
 app.use(express.json());
 
 /* ================= ROUTES ================= */
+
 const contactRoutes = require("./routes/contactRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 
@@ -26,11 +27,13 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/comments", commentRoutes);
 
 /* ================= HEALTH CHECK ================= */
+
 app.get("/", (req, res) => {
   res.send("🚀 Backend is running successfully");
 });
 
 /* ================= POSTGRES CHECK ================= */
+
 const checkDatabase = async () => {
   try {
     const result = await pool.query("SELECT NOW()");
@@ -42,12 +45,20 @@ const checkDatabase = async () => {
   }
 };
 
+/* ================= ERROR HANDLER ================= */
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: "Internal Server Error",
+  });
+});
+
 /* ================= START SERVER ================= */
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
-
-  // check DB when server starts
   await checkDatabase();
 });
