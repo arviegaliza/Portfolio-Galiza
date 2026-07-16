@@ -914,6 +914,8 @@ function App() {
                     {/* REPLY INPUT */}
                     {replyingTo === c.id && (
                       <div className="reply-box">
+                        {console.log("Current replyingTo:", replyingTo)}
+
                         <textarea
                           placeholder="Write a reply..."
                           value={replyText}
@@ -922,7 +924,10 @@ function App() {
 
                         <button
                           className="save-btn"
-                          onClick={() => handleReply(replyingTo)}
+                          onClick={() => {
+                            console.log("Sending button ID:", replyingTo);
+                            handleReply(replyingTo);
+                          }}
                         >
                           Send Reply
                         </button>
