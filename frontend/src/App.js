@@ -106,25 +106,25 @@ function App() {
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          text: comment,
-          ownerId: "anonymous",
+          name: "Anonymous",
+          comment: comment,
         }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        throw new Error(data.message || "Failed to post comment");
+        throw new Error("Failed to post comment");
       }
 
+      const newComment = await res.json();
+
+      setComments((prev) => [newComment, ...prev]);
       setComment("");
-      loadComments();
-      showToast("Comment posted successfully!", "success");
-    } catch (error) {
-      console.error("POST ERROR:", error);
-      showToast(error.message, "error");
+    } catch (err) {
+      console.error("POST ERROR:", err);
     }
   };
 

@@ -13,17 +13,18 @@ const getComments = async (req, res) => {
 // CREATE COMMENT
 const createComment = async (req, res) => {
   try {
-    const { text, ownerId } = req.body;
+    const { name, comment } = req.body;
 
     const result = await pool.query(
-      `INSERT INTO comments (text, owner_id, time)
-       VALUES ($1, $2, $3)
+      `INSERT INTO comments (name, comment)
+       VALUES ($1, $2)
        RETURNING *`,
-      [text, ownerId, Date.now()],
+      [name, comment],
     );
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
+    console.error("CREATE COMMENT ERROR:", err);
     res.status(500).json({ error: err.message });
   }
 };
