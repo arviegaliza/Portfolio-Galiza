@@ -161,12 +161,8 @@ function App() {
     try {
       const res = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          comment: editText,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: editText }),
       });
 
       if (!res.ok) throw new Error();
@@ -223,6 +219,7 @@ function App() {
       showToast("Failed to update reply", "error");
     }
   };
+
   // ---------------- DELETE REPLY ----------------
   const handleDeleteReply = async (replyId) => {
     try {
@@ -239,6 +236,7 @@ function App() {
       showToast("Failed to delete reply", "error");
     }
   };
+
   // ---------------- CONTACT FORM ----------------
   const handleSubmit = async (e) => {
     e.preventDefault();
