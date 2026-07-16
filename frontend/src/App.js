@@ -161,11 +161,19 @@ function App() {
     try {
       const res = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: editText }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: editText,
+        }),
       });
 
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const error = await res.text();
+        console.log(error);
+        throw new Error(error);
+      }
 
       setEditId(null);
       setEditText("");

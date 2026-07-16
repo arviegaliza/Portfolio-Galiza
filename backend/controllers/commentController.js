@@ -50,7 +50,6 @@ const createComment = async (req, res) => {
   }
 };
 
-// UPDATE COMMENT
 const updateComment = async (req, res) => {
   try {
     const { id } = req.params;
