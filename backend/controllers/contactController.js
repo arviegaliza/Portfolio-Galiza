@@ -1,6 +1,5 @@
 const pool = require("../db");
-const brevoClient = require("../config/brevo");
-const Brevo = require("@getbrevo/brevo");
+const { apiInstance, SibApiV3Sdk } = require("../config/brevo");
 const validator = require("validator");
 
 // ================= CREATE CONTACT =================
@@ -38,59 +37,43 @@ const createContact = async (req, res) => {
 
     // Send email using Brevo API
     try {
-      const emailData = new Brevo.SendSmtpEmail();
+      const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
-      emailData.sender = {
+      sendSmtpEmail.sender = {
         email: process.env.BREVO_USER,
         name: "Portfolio Website",
       };
 
-      emailData.to = [
+      sendSmtpEmail.to = [
         {
           email: process.env.BREVO_USER,
         },
       ];
 
-      emailData.replyTo = {
+      sendSmtpEmail.replyTo = {
         email: cleanEmail,
         name: name,
       };
 
-      emailData.subject = "📩 New Portfolio Contact Form Submission";
+      sendSmtpEmail.subject = "📩 New Portfolio Contact Form Submission";
 
-      emailData.htmlContent = `
-        <h2>New Contact Form Submission</h2>
+      sendSmtpEmail.htmlContent = `
+<h2>New Contact Form Submission</h2>
 
-        <p>
-          <strong>Name:</strong> ${name}
-        </p>
+<p><strong>Name:</strong> ${name}</p>
 
-        <p>
-          <strong>Email:</strong> ${cleanEmail}
-        </p>
+<p><strong>Email:</strong> ${cleanEmail}</p>
 
-        <p>
-          <strong>Message:</strong>
-        </p>
+<p><strong>Message:</strong></p>
 
-        <div style="
-          padding:10px;
-          border:1px solid #ddd;
-          background:#f9f9f9;
-        ">
-          ${message}
-        </div>
+<div>
+${message}
+</div>
+`;
 
-        <br>
+      await apiInstance.sendTransacEmail(sendSmtpEmail);
 
-        <small>
-          Sent from your Portfolio Website
-        </small>
-      `;
-
-      const response = await brevoClient.sendTransacEmail(emailData);
-
-      console.log("✅ BREVO EMAIL SENT");
+      console.log("✅ Brevo email sent successfully");
       console.log(response);
     } catch (mailError) {
       console.error("===== BREVO EMAIL ERROR =====");
