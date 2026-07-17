@@ -36,7 +36,7 @@ const createContact = async (req, res) => {
 
     try {
       const info = await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_USER,
         replyTo: cleanEmail,
         subject: "📩 New Portfolio Contact Form Submission",
@@ -47,37 +47,38 @@ const createContact = async (req, res) => {
           <p><strong>Email:</strong> ${cleanEmail}</p>
 
           <p><strong>Message:</strong></p>
+
           <div style="padding:10px;border:1px solid #ddd;background:#f9f9f9;">
             ${message}
           </div>
 
           <br>
+
           <small>Sent from your Portfolio Website</small>
         `,
       });
 
       console.log("✅ Email sent successfully!");
-      console.log(info.messageId);
+      console.log(info);
+
+      return res.status(201).json({
+        success: true,
+        message: "Message sent successfully.",
+        contact: result.rows[0],
+      });
     } catch (mailError) {
       console.error("===== SENDMAIL ERROR =====");
       console.error(mailError);
 
-      // Don't fail because the contact is already saved
-      return res.status(201).json({
-        success: true,
-        message:
-          "Your message has been received. Email notification could not be sent.",
-        contact: result.rows[0],
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send email notification.",
+        error: mailError.message,
       });
     }
-
-    return res.status(201).json({
-      success: true,
-      message: "Message sent successfully.",
-      contact: result.rows[0],
-    });
   } catch (err) {
-    console.error("Contact Error:", err);
+    console.error("===== CONTACT ERROR =====");
+    console.error(err);
 
     return res.status(500).json({
       success: false,
