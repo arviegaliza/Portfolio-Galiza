@@ -83,7 +83,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
-
+  const [sending, setSending] = useState(false);
   // ---------------- TOAST ----------------
   const showToast = (message, type = "success") => {
     setToast({ message, type });
