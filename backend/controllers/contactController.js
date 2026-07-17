@@ -1,5 +1,5 @@
 const pool = require("../db");
-const transporter = require("../config/mailer");
+const createTransporter = require("../config/mailer");
 const validator = require("validator");
 
 // ================= CREATE CONTACT =================
@@ -17,7 +17,7 @@ const createContact = async (req, res) => {
       });
     }
 
-    // Email validation (STRICT)
+    // Validate email
     if (!validator.isEmail(cleanEmail)) {
       return res.status(400).json({
         success: false,
@@ -31,6 +31,9 @@ const createContact = async (req, res) => {
       [name, cleanEmail, message],
     );
 
+    // Create a fresh transporter
+    const transporter = createTransporter();
+
     try {
       const info = await transporter.sendMail({
         from: process.env.EMAIL_USER,
@@ -38,31 +41,34 @@ const createContact = async (req, res) => {
         replyTo: cleanEmail,
         subject: "📩 New Portfolio Contact Form Submission",
         html: `
-      <h2>New Contact Form Submission</h2>
+          <h2>New Contact Form Submission</h2>
 
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${cleanEmail}</p>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${cleanEmail}</p>
 
-      <p><strong>Message:</strong></p>
-      <div style="padding:10px;border:1px solid #ddd;background:#f9f9f9;">
-        ${message}
-      </div>
+          <p><strong>Message:</strong></p>
+          <div style="padding:10px;border:1px solid #ddd;background:#f9f9f9;">
+            ${message}
+          </div>
 
-      <br>
-      <small>Sent from your Portfolio Website</small>
-    `,
+          <br>
+          <small>Sent from your Portfolio Website</small>
+        `,
       });
 
-      console.log("Email sent successfully!");
-      console.log(info);
+      console.log("✅ Email sent successfully!");
+      console.log(info.messageId);
     } catch (mailError) {
       console.error("===== SENDMAIL ERROR =====");
       console.error(mailError);
-      console.error(mailError.message);
-      console.error(mailError.response);
-      console.error(mailError.responseCode);
 
-      throw mailError;
+      // Don't fail because the contact is already saved
+      return res.status(201).json({
+        success: true,
+        message:
+          "Your message has been received. Email notification could not be sent.",
+        contact: result.rows[0],
+      });
     }
 
     return res.status(201).json({
@@ -71,14 +77,11 @@ const createContact = async (req, res) => {
       contact: result.rows[0],
     });
   } catch (err) {
-    console.error("Contact Error:");
-    console.error(err);
-    console.error(err.message);
-    console.error(err.stack);
+    console.error("Contact Error:", err);
 
     return res.status(500).json({
       success: false,
-      message: "Failed to send message.",
+      message: "Internal server error.",
       error: err.message,
     });
   }
