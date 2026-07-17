@@ -356,7 +356,7 @@ function App() {
             Skills
           </a>
 
-          <a href="#work-experience" onClick={() => setMenuOpen(false)}>
+          <a href="#work experience" onClick={() => setMenuOpen(false)}>
             Work Experience
           </a>
 
