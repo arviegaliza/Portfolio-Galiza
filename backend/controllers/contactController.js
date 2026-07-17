@@ -70,10 +70,11 @@ const createContact = async (req, res) => {
       console.error("===== SENDMAIL ERROR =====");
       console.error(mailError);
 
-      return res.status(500).json({
-        success: false,
-        message: "Failed to send email notification.",
-        error: mailError.message,
+      return res.status(201).json({
+        success: true,
+        message:
+          "Your message has been saved successfully, but the email notification could not be sent.",
+        contact: result.rows[0],
       });
     }
   } catch (err) {
