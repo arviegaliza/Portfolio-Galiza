@@ -1,33 +1,19 @@
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false, // helps avoid some local SSL issues
-  },
-});
+function createTransporter() {
+  return nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000,
+  });
+}
 
-// Better verification (async-safe + clearer logs)
-const initMailer = async () => {
-  console.log("EMAIL_USER:", process.env.EMAIL_USER);
-  console.log("EMAIL_PASS exists:", !!process.env.EMAIL_PASS);
-  try {
-    await transporter.verify();
-    console.log("✅ Gmail SMTP is ready to send emails");
-    console.log("📧 Using account:", process.env.EMAIL_USER);
-  } catch (error) {
-    console.log("❌ Gmail SMTP FAILED:");
-    console.log(error);
-  }
-};
-
-initMailer();
-
-module.exports = transporter;
+module.exports = createTransporter;
