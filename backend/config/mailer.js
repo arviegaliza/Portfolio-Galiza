@@ -4,7 +4,8 @@ function createTransporter() {
   console.log("===== BREVO SMTP CONFIG =====");
   console.log("BREVO_USER:", process.env.BREVO_USER);
   console.log("BREVO_PASS exists:", !!process.env.BREVO_PASS);
-
+  console.log("BREVO_USER:", process.env.BREVO_USER);
+  console.log("BREVO_PASS length:", process.env.BREVO_PASS?.length);
   const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
     port: 587,
