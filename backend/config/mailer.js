@@ -1,7 +1,5 @@
 const nodemailer = require("nodemailer");
 
-const nodemailer = require("nodemailer");
-
 function createTransporter() {
   return nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
