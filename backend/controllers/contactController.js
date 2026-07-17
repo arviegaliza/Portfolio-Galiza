@@ -71,7 +71,7 @@ ${message}
 </div>
 `;
 
-      await apiInstance.sendTransacEmail(sendSmtpEmail);
+      const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
 
       console.log("✅ Brevo email sent successfully");
       console.log(response);
