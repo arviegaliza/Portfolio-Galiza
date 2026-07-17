@@ -31,26 +31,39 @@ const createContact = async (req, res) => {
       [name, cleanEmail, message],
     );
 
-    // Send email notification
-    await transporter.sendMail({
-      from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER,
-      subject: "📩 New Portfolio Contact Form Submission",
-      html: `
-        <h2>New Contact Form Submission</h2>
+    try {
+      const info = await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: process.env.EMAIL_USER,
+        replyTo: cleanEmail,
+        subject: "📩 New Portfolio Contact Form Submission",
+        html: `
+      <h2>New Contact Form Submission</h2>
 
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${cleanEmail}</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${cleanEmail}</p>
 
-        <p><strong>Message:</strong></p>
-        <div style="padding:10px;border:1px solid #ddd;background:#f9f9f9;">
-          ${message}
-        </div>
+      <p><strong>Message:</strong></p>
+      <div style="padding:10px;border:1px solid #ddd;background:#f9f9f9;">
+        ${message}
+      </div>
 
-        <br>
-        <small>Sent from your Portfolio Website</small>
-      `,
-    });
+      <br>
+      <small>Sent from your Portfolio Website</small>
+    `,
+      });
+
+      console.log("Email sent successfully!");
+      console.log(info);
+    } catch (mailError) {
+      console.error("===== SENDMAIL ERROR =====");
+      console.error(mailError);
+      console.error(mailError.message);
+      console.error(mailError.response);
+      console.error(mailError.responseCode);
+
+      throw mailError;
+    }
 
     return res.status(201).json({
       success: true,
