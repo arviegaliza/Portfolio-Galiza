@@ -1,7 +1,7 @@
 const pool = require("../db");
-const validator = require("validator");
 const brevoClient = require("../config/brevo");
-const brevo = require("@getbrevo/brevo");
+const Brevo = require("@getbrevo/brevo");
+const validator = require("validator");
 
 // ================= CREATE CONTACT =================
 const createContact = async (req, res) => {
@@ -10,7 +10,7 @@ const createContact = async (req, res) => {
 
     const cleanEmail = email?.trim();
 
-    // Validate input
+    // Validate fields
     if (!name || !cleanEmail || !message) {
       return res.status(400).json({
         success: false,
@@ -29,110 +29,109 @@ const createContact = async (req, res) => {
     // Save to PostgreSQL
     const result = await pool.query(
       `
-      INSERT INTO contacts 
-      (name, email, message)
-      VALUES ($1,$2,$3)
+      INSERT INTO contacts (name, email, message)
+      VALUES ($1, $2, $3)
       RETURNING *
       `,
       [name, cleanEmail, message],
     );
 
-    console.log("===== CONTACT SAVED =====");
-    console.log(result.rows[0]);
+    // Send email using Brevo API
+    try {
+      const emailData = new Brevo.SendSmtpEmail();
 
-    // ================= BREVO EMAIL =================
-
-    const sendSmtpEmail = new brevo.SendSmtpEmail();
-
-    sendSmtpEmail.sender = {
-      email: process.env.BREVO_USER,
-      name: "Portfolio Website",
-    };
-
-    sendSmtpEmail.to = [
-      {
+      emailData.sender = {
         email: process.env.BREVO_USER,
-      },
-    ];
+        name: "Portfolio Website",
+      };
 
-    sendSmtpEmail.replyTo = {
-      email: cleanEmail,
-      name: name,
-    };
+      emailData.to = [
+        {
+          email: process.env.BREVO_USER,
+        },
+      ];
 
-    sendSmtpEmail.subject = "📩 New Portfolio Contact Form Submission";
+      emailData.replyTo = {
+        email: cleanEmail,
+        name: name,
+      };
 
-    sendSmtpEmail.htmlContent = `
-      <h2>New Contact Form Submission</h2>
+      emailData.subject = "📩 New Portfolio Contact Form Submission";
 
-      <p>
-        <strong>Name:</strong>
-        ${name}
-      </p>
+      emailData.htmlContent = `
+        <h2>New Contact Form Submission</h2>
 
-      <p>
-        <strong>Email:</strong>
-        ${cleanEmail}
-      </p>
+        <p>
+          <strong>Name:</strong> ${name}
+        </p>
 
+        <p>
+          <strong>Email:</strong> ${cleanEmail}
+        </p>
 
-      <p>
-        <strong>Message:</strong>
-      </p>
+        <p>
+          <strong>Message:</strong>
+        </p>
 
+        <div style="
+          padding:10px;
+          border:1px solid #ddd;
+          background:#f9f9f9;
+        ">
+          ${message}
+        </div>
 
-      <div style="
-        padding:10px;
-        border:1px solid #ddd;
-        background:#f9f9f9;
-      ">
-        ${message}
-      </div>
+        <br>
 
+        <small>
+          Sent from your Portfolio Website
+        </small>
+      `;
 
-      <br>
+      const response = await brevoClient.sendTransacEmail(emailData);
 
-      <small>
-        Sent from Portfolio Website
-      </small>
-    `;
+      console.log("✅ BREVO EMAIL SENT");
+      console.log(response);
+    } catch (mailError) {
+      console.error("===== BREVO EMAIL ERROR =====");
+      console.error(mailError);
 
-    console.log("===== SENDING BREVO EMAIL =====");
-
-    const emailResponse = await brevoClient.sendTransacEmail(sendSmtpEmail);
-
-    console.log("===== EMAIL SENT =====");
-    console.log(emailResponse);
+      return res.status(500).json({
+        success: false,
+        message: "Email sending failed.",
+        error: mailError.message,
+      });
+    }
 
     return res.status(201).json({
       success: true,
       message: "Message sent successfully.",
       contact: result.rows[0],
     });
-  } catch (error) {
+  } catch (err) {
     console.error("===== CONTACT ERROR =====");
-    console.error(error);
+    console.error(err);
 
     return res.status(500).json({
       success: false,
       message: "Internal server error.",
-      error: error.message,
+      error: err.message,
     });
   }
 };
 
 // ================= GET CONTACTS =================
-
 const getContacts = async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM contacts ORDER BY id DESC");
 
-    res.json(result.rows);
-  } catch (error) {
-    console.error(error);
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error("GET CONTACT ERROR:", err);
 
     res.status(500).json({
-      message: "Failed to fetch contacts",
+      success: false,
+      message: "Failed to fetch contacts.",
     });
   }
 };

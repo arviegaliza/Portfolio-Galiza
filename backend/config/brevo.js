@@ -1,10 +1,13 @@
-const brevo = require("@getbrevo/brevo");
+const Brevo = require("@getbrevo/brevo");
 
-const apiInstance = new brevo.TransactionalEmailsApi();
+const apiInstance = new Brevo.TransactionalEmailsApi();
 
 apiInstance.setApiKey(
-  brevo.TransactionalEmailsApiApiKeys.apiKey,
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
   process.env.BREVO_API_KEY,
 );
+
+console.log("===== BREVO API CONFIG =====");
+console.log("BREVO API KEY exists:", !!process.env.BREVO_API_KEY);
 
 module.exports = apiInstance;
