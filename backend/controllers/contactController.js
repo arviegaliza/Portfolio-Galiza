@@ -36,26 +36,26 @@ const createContact = async (req, res) => {
 
     try {
       const info = await transporter.sendMail({
-        from: `"Portfolio Website" <${process.env.EMAIL_USER}>`,
-        to: process.env.EMAIL_USER,
-        replyTo: cleanEmail,
+        from: `"Portfolio Website" <${process.env.BREVO_USER}>`,
+        to: process.env.BREVO_USER, // Send notification to yourself
+        replyTo: cleanEmail, // So you can reply directly to the visitor
         subject: "📩 New Portfolio Contact Form Submission",
         html: `
-          <h2>New Contact Form Submission</h2>
+      <h2>New Contact Form Submission</h2>
 
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${cleanEmail}</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${cleanEmail}</p>
 
-          <p><strong>Message:</strong></p>
+      <p><strong>Message:</strong></p>
 
-          <div style="padding:10px;border:1px solid #ddd;background:#f9f9f9;">
-            ${message}
-          </div>
+      <div style="padding:10px; border:1px solid #ddd; background:#f9f9f9;">
+        ${message}
+      </div>
 
-          <br>
+      <br>
 
-          <small>Sent from your Portfolio Website</small>
-        `,
+      <small>Sent from your Portfolio Website</small>
+    `,
       });
 
       console.log("✅ Email sent successfully!");

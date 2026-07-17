@@ -1,23 +1,20 @@
 const nodemailer = require("nodemailer");
 
+const nodemailer = require("nodemailer");
+
 function createTransporter() {
   return nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "smtp-relay.brevo.com",
     port: 587,
-    secure: false, // STARTTLS
-    requireTLS: true,
-
+    secure: false,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.BREVO_USER,
+      pass: process.env.BREVO_PASS,
     },
-
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000,
   });
 }
 
+module.exports = createTransporter;
 // Verify SMTP when the server starts
 (async () => {
   try {
