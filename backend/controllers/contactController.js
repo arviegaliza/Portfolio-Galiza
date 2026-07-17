@@ -58,7 +58,10 @@ const createContact = async (req, res) => {
       contact: result.rows[0],
     });
   } catch (err) {
-    console.error("Contact Error:", err);
+    console.error("Contact Error:");
+    console.error(err);
+    console.error(err.message);
+    console.error(err.stack);
 
     return res.status(500).json({
       success: false,
