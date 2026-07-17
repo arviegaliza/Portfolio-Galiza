@@ -6,7 +6,7 @@ const validator = require("validator");
 const createContact = async (req, res) => {
   try {
     const { name, email, message } = req.body;
-
+    console.log("BREVO KEY:", process.env.BREVO_API_KEY);
     const cleanEmail = email?.trim();
 
     // Validate fields
