@@ -12,7 +12,6 @@ function createTransporter() {
   });
 }
 
-module.exports = createTransporter;
 // Verify SMTP when the server starts
 (async () => {
   try {
